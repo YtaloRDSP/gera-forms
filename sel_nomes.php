@@ -4,7 +4,7 @@
     $servername = $url["host"];
     $username = $url["user"];
     $password = $url["pass"];
-    $database = 'heroku_4888ce2e195390f';
+    $database = 'heroku_1d16e51af604e58';
     try {
         echo "";
         $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);

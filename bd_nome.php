@@ -5,7 +5,7 @@
     $servername = $url["host"];
     $username = $url["user"];
     $password = $url["pass"];
-    $database = 'heroku_4888ce2e195390f';
+    $database = 'heroku_1d16e51af604e58';
     session_start();
 
     if(!($_POST['nome']=='') && !($_POST['cpf']=='') && !($_POST['rg']=='') && !($_POST['uf']=='') && !($_POST['email']=='') && !($_POST['fone']=='') && !($_POST['funcao']=='') && !($_POST['proc']=='') && !($_POST['modalidade']=='') && !($_POST['periodoTotal']=='') && !($_POST['cargaTotal']=='')){
