@@ -32,6 +32,7 @@
                     <th>Atividade</th>
                     <th>Descrição da Atividade</th>
                     <th>CH</th>
+                    <th> </th>
                 </tr>
             </thead>
             <tbody>";
@@ -73,7 +74,7 @@
         
         for($i = 1; $i<=10; $i++){
             $totalPorc[$i] = 0;
-            $stmt = $conn->prepare("SELECT Dias, Codigo, Atividade, CH FROM Atividades WHERE Categoria = $i ORDER BY Codigo");
+            $stmt = $conn->prepare("SELECT Dias, Codigo, Atividade, CH, id FROM Atividades WHERE Categoria = $i ORDER BY Codigo");
             $stmt->execute();
 
             $result = $stmt->fetchAll();
@@ -87,18 +88,20 @@
                 foreach($result as $linha){
                     $totalPorc[$i] += (int)$linha["CH"];
                 }
-                echo "<td>".$totalPorc[$i]."h|".number_format((($totalPorc[$i]/$cargaTotal)*100),2)."%</td></tr>";         
+                echo "<td>".$totalPorc[$i]."h|".number_format((($totalPorc[$i]/$cargaTotal)*100),2)."%</td>
+                        <td> </td></tr>";         
                 foreach($result as $linha){
                     echo "<tr>
                         <td>".str_replace(" ","<br>", $linha["Dias"])."</td>
                         <td>".$i.".".$linha["Codigo"]."</td>
                         <td>".$linha["Atividade"]."</td>
                         <td>".$linha["CH"]."h|".number_format((((int)$linha["CH"]/$cargaTotal)*100),2)."%</td>
+                        <td><a class='btn-floating waves-effect waves-dark' href='excluir.php?id=".$linha["id"]."'><i class='material-icons'>remove</i></a></td>
                     </tr>";
                 }
             }
         } 
-        echo "<tr class='blue-grey darken-2'><td></td><td></td><td>TOTAL</td><td>".array_sum($totalPorc)."h|".number_format(((array_sum($totalPorc)/$cargaTotal)*100), 2)."%</td></tbody></table>";
+        echo "<tr class='blue-grey darken-2'><td></td><td></td><td>TOTAL</td><td>".array_sum($totalPorc)."h|".number_format(((array_sum($totalPorc)/$cargaTotal)*100), 2)."%</td><td></td></tbody></table>";
     } catch(PDOException $e) {
         echo $stmt . '<br>' . $e->getMessage();
     }
