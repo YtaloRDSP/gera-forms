@@ -22,7 +22,7 @@
         $conn->exec($sql);
 
         echo '<script> alert("Item Excluído.")</script>';
-        echo '<script> location = "cadastro.php";</script>';
+        echo '<script> location = "index.php";</script>';
         
     } catch(PDOException $e) {
         echo $stmt . '<br>' . $e->getMessage();
