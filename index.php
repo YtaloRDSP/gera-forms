@@ -43,7 +43,6 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <select class="browser-default" value="<?=$nome?>" id="nome" name="nome">
-                                    <option value='' disabled select>Escolha um beneficiário</option>
                                     <?php include("sel_nomes.php"); ?>
                                 </select>
                             </div>

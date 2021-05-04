@@ -11,7 +11,7 @@
     try {
         $conn = new PDO("mysql:host=$servername", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "CREATE DATABASE IF NOT EXISTS $database";
+        $sql = "CREATE DATABASE IF NOT EXISTS $database;";
         $conn->exec($sql);
         $conn = null;
 
@@ -20,9 +20,6 @@
 
         $sql = "DELETE FROM Atividades WHERE id=$id";
         $conn->exec($sql);
-
-        echo '<script> alert("Item Excluído.")</script>';
-        echo '<script> location = "index.php";</script>';
         
     } catch(PDOException $e) {
         echo $stmt . '<br>' . $e->getMessage();

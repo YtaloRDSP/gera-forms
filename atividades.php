@@ -1,15 +1,32 @@
 <html>
     <?php
         session_start();
-        $nome = $_POST['nome'];
-        $meta = $_POST['meta'];
-        $parcela = $_POST['parcela'];
-        $periodoMensal = $_POST['periodoMensal'];
-        $cargaMensal = $_POST['cargaMensal'];
+        if(isset($_POST['nome']) && isset($_POST['meta']) && isset($_POST['parcela']) && isset($_POST['periodoMensal']) && isset($_POST['cargaMensal'])){
+            $nome = $_POST['nome'];
+            $meta = $_POST['meta'];
+            $parcela = $_POST['parcela'];
+            $periodoMensal = $_POST['periodoMensal'];
+            $cargaMensal = $_POST['cargaMensal'];
+        } else{
+            echo '<script> location = "index.php";</script>';
+        }
     ?>
     <script>
         function enviar(){
-            document.getElementById("form").submit()
+            nome = document.getElementById("nome").value
+            meta = slicer(document.getElementById("meta").value)
+            parcela = document.getElementById("parcela").value
+            periodoMensal = document.getElementById("periodoMensal").value
+            cargaMensal = document.getElementById("cargaMensal").value
+                        
+            var download = new XMLHttpRequest();
+            download.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    document.getElementById("exclusao").innerHTML = this.responseText;
+                }
+            };
+            download.open("GET", "gera.php?nome="+nome+"&meta="+meta+"&parcela="+parcela+"&periodoMensal="+periodoMensal+"&cargaMensal="+cargaMensal, true);
+            download.send();
         }
         function slicer(str){
             novo = "";
@@ -31,13 +48,15 @@
             }
             return novo
         }
-        function tabela(){
+        function tabela(n){
             cargaTotal = Number("<?php echo $cargaMensal;?>")
             categoria = document.getElementById("categoria").value
             data = slicer(document.getElementById("data").value)
             item = document.getElementById("codigo").value
             atividade = document.getElementById("atividade").value
             ch = document.getElementById("ch").value
+
+            if(n==0){data = ''}
 
             var pretabela = new XMLHttpRequest();
             pretabela.onreadystatechange = function(){
@@ -61,6 +80,20 @@
                 pretabela.send();
             }
         }
+        function excluir(n){
+            var cn = confirm("Tem certeza que deseja excluir este item da tabela?")
+            if(cn){
+                var exclusao = new XMLHttpRequest();
+                exclusao.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        document.getElementById("exclusao").innerHTML = this.responseText;
+                    }
+                };
+                exclusao.open("GET", "excluir.php?id="+n, true);
+                exclusao.send();
+                tabela(0);
+            }
+        }
     </script>
     <head>
         <title>Gerador de Tabela</title>
@@ -71,7 +104,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
 
-    <body onload="tabela()" class="teal darken-4">
+    <body onload="tabela(0)" class="teal darken-4">
         <div class="container">
             <div class="card blue-grey darken-1">
                 <div class="card-content white-text">
@@ -82,6 +115,7 @@
                     </div>
                     <div class="row">
                         <div id='tabela'></div>
+                        <div id='exclusao'></div>
                     </div>
                     <div class="divider"></div>
                     <h5>Inserir Novo Item</h5>

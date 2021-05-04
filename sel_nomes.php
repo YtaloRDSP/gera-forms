@@ -6,7 +6,7 @@
     $password = $url["pass"];
     $database = 'heroku_1d16e51af604e58';
     try {
-        echo "";
+        echo "<option value='' disabled selected>Escolha um beneficiário</option>";
         $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $conn->prepare("SELECT Nome FROM Beneficiarios");
