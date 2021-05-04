@@ -1,12 +1,12 @@
 <html>
     <?php
         session_start();
-        if(isset($_GET['nome']) && isset($_GET['meta']) && isset($_GET['parcela']) && isset($_GET['periodoMensal']) && isset($_GET['cargaMensal'])){
-            $nome = $_GET['nome'];
-            $meta = $_GET['meta'];
-            $parcela = $_GET['parcela'];
-            $periodoMensal = $_GET['periodoMensal'];
-            $cargaMensal = (int)$_GET['cargaMensal'];
+        if(isset($_POST['nome']) && isset($_POST['meta']) && isset($_POST['parcela']) && isset($_POST['periodoMensal']) && isset($_POST['cargaMensal'])){
+            $nome = $_POST['nome'];
+            $meta = $_POST['meta'];
+            $parcela = $_POST['parcela'];
+            $periodoMensal = $_POST['periodoMensal'];
+            $cargaMensal = (int)$_POST['cargaMensal'];
         } else{
             echo '<script> location = "index.php";</script>';
         }
@@ -204,6 +204,7 @@
                 mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             }) //Output the document using Data-URI
             saveAs(out,arqNome+".docx")
+            location = "atividades.php"
         })
     </script>
 </html>

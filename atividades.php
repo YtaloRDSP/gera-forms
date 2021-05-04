@@ -13,20 +13,7 @@
     ?>
     <script>
         function enviar(){
-            nome = document.getElementById("nome").value
-            meta = slicer(document.getElementById("meta").value)
-            parcela = document.getElementById("parcela").value
-            periodoMensal = document.getElementById("periodoMensal").value
-            cargaMensal = document.getElementById("cargaMensal").value
-                        
-            var download = new XMLHttpRequest();
-            download.onreadystatechange = function(){
-                if(this.readyState == 4 && this.status == 200){
-                    document.getElementById("exclusao").innerHTML = this.responseText;
-                }
-            };
-            download.open("GET", "gera.php?nome="+nome+"&meta="+meta+"&parcela="+parcela+"&periodoMensal="+periodoMensal+"&cargaMensal="+cargaMensal, true);
-            download.send();
+            document.getElementById("form").submit()
         }
         function slicer(str){
             novo = "";
