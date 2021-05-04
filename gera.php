@@ -10,11 +10,6 @@
         } else{
             echo '<script> location = "index.php";</script>';
         }
-        echo $nome;
-        echo $meta;
-        echo $parcela;
-        echo $periodoMensal;
-        echo $cargaMensal;
 
         $cpf = '';
         $rg = '';
@@ -113,7 +108,6 @@
         arquivo = "rel"+tamanho+".docx"
         now = new Date
         meses = ['01','02','03','04','05','06','07','08','09','10','11','12']
-        console.log(meses[now.getMonth()])
         <?php
             for($i=count($j); $i<=10; $i++){
                 $j[]='1';
