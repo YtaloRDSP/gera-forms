@@ -7,8 +7,6 @@
     $parcela = '';
     $periodoMensal = '';
     $cargaMensal = '';
-
-    setcookie("CookieUser");
 ?>
 
 <!DOCTYPE html>

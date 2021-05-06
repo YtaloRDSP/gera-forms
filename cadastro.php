@@ -13,7 +13,6 @@
     $modalidade = '';
     $periodoTotal = '';
     $cargaTotal = '';
-    setcookie("CookieUser");
 ?>
 <!DOCTYPE html>
 <html>
