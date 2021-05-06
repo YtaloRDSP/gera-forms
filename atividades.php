@@ -1,3 +1,6 @@
+<?php
+    require('check.php');
+?>
 <html>
     <?php
         session_start();

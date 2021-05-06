@@ -1,4 +1,7 @@
 <?php
+    require('check.php');
+?>
+<?php
     $nome = '';
     $meta = '';
     $parcela = '';
