@@ -20,6 +20,7 @@
         $email = '';
         $fone = '';
         $funcao = '';
+        $contrato = '';
         $proc = '';
         $modalidade = '';
         $periodoTotal = '';
@@ -48,7 +49,7 @@
         try {
             $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $conn->prepare("SELECT CPF, RG, UF, Email, Fone, Funcao, Procur, Modalidade, PeriodoTotal, CargaTotal FROM Beneficiarios WHERE Nome='".$nome."'");
+            $stmt = $conn->prepare("SELECT CPF, RG, UF, Email, Fone, Funcao, Contrato, Procur, Modalidade, PeriodoTotal, CargaTotal FROM Beneficiarios WHERE Nome='".$nome."'");
             $stmt->execute();
             $result = $stmt->fetch();
             if($result){
@@ -58,6 +59,7 @@
                 $email = $result["Email"];
                 $fone = $result["Fone"];
                 $funcao = $result["Funcao"];
+                $contrato = $result["Contrato"];
                 $proc = $result["Procur"];
                 $modalidade = $result["Modalidade"];
                 $periodoTotal = $result["PeriodoTotal"];
@@ -162,6 +164,7 @@
                 email: "<?php echo $email; ?>",
                 fone: "<?php echo $fone; ?>",
                 funcao: "<?php echo $funcao; ?>",
+                contrato: "<?php echo $contrato; ?>",
                 proc: "<?php echo $proc; ?>",
                 modalidade: "<?php echo $modalidade; ?>",
                 periodoTotal: "<?php echo $periodoTotal; ?>",

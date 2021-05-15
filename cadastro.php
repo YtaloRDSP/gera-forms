@@ -9,6 +9,7 @@
     $email = '';
     $fone = '';
     $funcao = '';
+    $contrato = '';
     $proc = '';
     $modalidade = '';
     $periodoTotal = '';
@@ -60,12 +61,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s12 m8">
+                            <div class="input-field col s12 m6">
                                 <label for="funcao">Função:</label>
                                 <input type="text" class="form-control" value="<?=$funcao?>" id="funcao" name="funcao">
                             </div>
-                            <div class="input-field col s12 m4">
-                                <label for="proc">Número do Contrato:</label>
+                            <div class="input-field col s12 m3">
+                                <label for="contrato">Número do Contrato:</label>
+                                <input type="text" class="form-control" value="<?=$contrato?>" id="contrato" name="contrato">
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <label for="proc">Número do Proc:</label>
                                 <input type="text" class="form-control" value="<?=$proc?>" id="proc" name="proc">
                             </div>
                         </div>
