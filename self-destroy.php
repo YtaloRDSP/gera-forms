@@ -15,7 +15,7 @@
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "DROP TABLE Beneficiários";
+    $sql = "DROP TABLE Beneficiarios";
     $conn->exec($sql);
 
     echo "Cadastros Destruídos";
