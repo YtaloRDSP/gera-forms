@@ -5,8 +5,7 @@
         $user = $_POST['usuario'];
         $senha = $_POST['senha'];
 
-        $logins = array('SixSigma'=>'#Lizman72#');
-        if(isset($logins[$user]) && $logins[$user] == $senha){
+        if($user== getenv("Usuario") && $senha == getenv("Senha")){
             $tempo = time() + 24*60*60;
             setcookie("CookieUser", $user, $tempo);
             header('location: index.php');
