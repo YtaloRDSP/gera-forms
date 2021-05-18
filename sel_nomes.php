@@ -9,7 +9,7 @@
         echo "<option value='' disabled selected>Escolha um beneficiário</option>";
         $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT Nome FROM Beneficiarios");
+        $stmt = $conn->prepare("SELECT Nome FROM Beneficiarios ORDER BY Nome");
         $stmt->execute();
         $result = $stmt->fetchAll();
         if($result){
