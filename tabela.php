@@ -19,11 +19,28 @@
             9 => "Acompanhamento e Manutenção",
             10 => "Treinamento Six Sigma"
         );
+        $atividades = array(
+            '3-1' => "Definição do banco de dados espelho extraído do sistema corporativo",
+            '3-2' => "Elaboração do protocolo de base de dados e de confidencialidade",
+            '3-3' => "Recebimento dos dados",
+            '3-4' => "Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi",
+            '3-5' => "Controle no fluxo de entrada e saída de correspondências",
+            '3-6' => "Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas",
+            '3-7' => "Organização, preparação e arquivamento de documentos conforme procedimentos",
+            '3-8' => "Visita na Empresa Arris para definição do processo de trabalho",
+            '10-1' => "Acompanhamento/monitoramento do software action no microsoft azure",
+            '10-2' => "Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi",
+            '10-3' => "Controle no fluxo de entrada e saída de correspondências",
+            '10-4' => "Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas"
+        );
+
+        $atividade = explode('-', $_GET['atividade']);
+        $categoria = (int)$atividade[0];
+        $codigo = (int)$atividade[1];
+
         $data = $_GET['data'];
-        $codigo = (int)$_GET['codigo'];
-        $atividade = $_GET['atividade'];
-        $CH = (int)$_GET['ch'];
-        $categoria = (int)$_GET['categoria'];
+        $atividade = $atividades[$_GET['atividade']];
+        $CH = (int)$_GET['ch'];      
         $cargaTotal = (int)$_GET['ct'];
 
         echo "  <table>
