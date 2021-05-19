@@ -107,7 +107,7 @@
             PizZipUtils.getBinaryContent(url,callback);
         }
         tamanho = "<?php echo count($j);?>"
-        coor = "<?php if($nome=='Lizandro Manzato') echo 'Coor';
+        coor = "<?php if($nome=='LIZANDRO MANZATO') echo 'Coor';
             else echo ''?>"
         arquivo = "word/rel"+coor+tamanho+".docx"
         now = new Date
