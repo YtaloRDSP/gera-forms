@@ -21,6 +21,7 @@
         function tabela(n){
             cargaTotal = Number("<?php echo $cargaMensal;?>")
             data = mostrar()
+            console.log(data)
             atividade = document.getElementById("atividade").value
             ch = document.getElementById("ch").value
 
@@ -93,7 +94,8 @@
             }
 
             function mostrar() {
-                var ordenadas = datas
+                if(!datas) ordenadas = []
+                else ordenadas = datas
                 for (i = 0; i < ordenadas.length; i++) {
                     ind = i
                     menor = ordenadas[i]
