@@ -34,12 +34,18 @@
             '10-4' => "Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas"
         );
 
-        $atividade = explode('-', $_GET['atividade']);
-        $categoria = (int)$atividade[0];
-        $codigo = (int)$atividade[1];
-
+        
+        if($_GET['atividade'] != ''){
+            $atividade = explode('-', $_GET['atividade']);
+            $categoria = (int)$atividade[0];
+            $codigo = (int)$atividade[1];
+            $atividade = $atividades[$_GET['atividade']];
+        } else{
+            $atividade = '';
+            $categoria = "";
+            $codigo = "";
+        }
         $data = $_GET['data'];
-        $atividade = $atividades[$_GET['atividade']];
         $CH = (int)$_GET['ch'];      
         $cargaTotal = (int)$_GET['ct'];
 
