@@ -1,6 +1,3 @@
-<?php
-    require('check.php');
-?>
 <html>
     <?php
         session_start();
@@ -110,7 +107,7 @@
             PizZipUtils.getBinaryContent(url,callback);
         }
         tamanho = "<?php echo count($j);?>"
-        arquivo = "rel"+tamanho+".docx"
+        arquivo = "word/rel"+tamanho+".docx"
         now = new Date
         meses = ['01','02','03','04','05','06','07','08','09','10','11','12']
         <?php
@@ -210,7 +207,6 @@
                 mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             }) //Output the document using Data-URI
             saveAs(out,arqNome+".docx")
-            location = "atividades.php"
         })
     </script>
 </html>

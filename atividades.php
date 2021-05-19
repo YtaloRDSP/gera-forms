@@ -1,5 +1,5 @@
 <?php
-    require('check.php');
+    //require('check.php');
 ?>
 <html>
     <?php
@@ -18,31 +18,9 @@
         function enviar(){
             document.getElementById("form").submit()
         }
-        function slicer(str){
-            novo = "";
-            arr = [];
-            i = 0;
-            while(i < str.length){
-                if(i==0){
-                    arr.push(str.slice(i, i+10))
-                    i = i+10
-                }
-                else{
-                    arr.push(str.slice(i, i+11))
-                    i = i+11
-                }
-            }
-            novo = arr[0]
-            for(i=1; i<arr.length; i++){
-                novo += (" "+arr[i])
-            }
-            return novo
-        }
         function tabela(n){
             cargaTotal = Number("<?php echo $cargaMensal;?>")
-            categoria = document.getElementById("categoria").value
-            data = slicer(document.getElementById("data").value)
-            item = document.getElementById("codigo").value
+            data = mostrar()
             atividade = document.getElementById("atividade").value
             ch = document.getElementById("ch").value
 
@@ -54,7 +32,7 @@
                     document.getElementById("tabela").innerHTML = this.responseText;
                 }
             };
-            pretabela.open("GET", "tabela.php?data="+data+"&codigo="+item+"&atividade="+atividade+"&ch="+ch+"&categoria="+categoria+"&ct="+cargaTotal, true);
+            pretabela.open("GET", "bd/tabela.php?data="+data+"&atividade="+atividade+"&ch="+ch+"&ct="+cargaTotal, true);
             pretabela.send();
         }
         function drop(){
@@ -66,7 +44,7 @@
                         document.getElementById("tabela").innerHTML = this.responseText;
                     }
                 };
-                pretabela.open("GET", "drop.php", true);
+                pretabela.open("GET", "bd/drop.php", true);
                 pretabela.send();
             }
         }
@@ -79,7 +57,7 @@
                         document.getElementById("exclusao").innerHTML = this.responseText;
                     }
                 };
-                exclusao.open("GET", "excluir.php?id="+n, true);
+                exclusao.open("GET", "bd/excluir.php?id="+n, true);
                 exclusao.send();
                 tabela(0);
             }
@@ -92,6 +70,61 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="css/jquery.datepick.css" rel="stylesheet">
+        <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.js"></script><style type="text/css"></style>
+        <script src="js/jquery.plugin.min.js"></script>
+        <script src="js/jquery.datepick.js"></script>
+        <script>
+            var datas
+            $(function() {
+                $('#getSetInlinePicker').datepick({
+                    multiSelect: 15,
+                    showTrigger: '#calImg',
+                    onSelect: showDate
+                });
+            });
+
+            function showDate(date) {
+                datas = JSON.stringify(date)
+                datas = JSON.parse(datas)
+                for (i = 0; i < datas.length; i++) {
+                    datas[i] = String(datas[i]).slice(0, 10)
+                }
+            }
+
+            function mostrar() {
+                var ordenadas = datas
+                for (i = 0; i < ordenadas.length; i++) {
+                    ind = i
+                    menor = ordenadas[i]
+                    for (j = i; j < ordenadas.length; j++) {
+                        minMes = Number(menor.slice(5, 7))
+                        minDia = Number(menor.slice(8, 10))
+                        cMes = Number(ordenadas[j].slice(5, 7))
+                        cDia = Number(ordenadas[j].slice(8, 10))
+                        if (cMes < minMes || (cMes == minMes && cDia < minDia)) {
+                            menor = ordenadas[j]
+                            ordenadas[j] = ordenadas[i]
+                            ordenadas[i] = menor
+                        }
+                    }
+                }
+                saida = ''
+                for (i = 0; i < ordenadas.length; i++) {
+                    saida += ordenadas[i].slice(8, 10) + '/'
+                    saida += ordenadas[i].slice(5, 7) + '/'
+                    saida += ordenadas[i].slice(0, 4)
+                    if (i != ordenadas.length - 1) saida += ' '
+                }
+                $('#getSetInlinePicker').datepick("destroy");
+                $('#getSetInlinePicker').datepick({
+                    multiSelect: 10,
+                    showTrigger: '#calImg',
+                    onSelect: showDate
+                });
+                return saida
+            }
+        </script>
     </head>
 
     <body onload="tabela(0)" class="teal darken-4">
@@ -111,34 +144,47 @@
                     <h5>Inserir Novo Item</h5>
                     <div class="row">
                         <form class="col">
+                            
                             <div class="row">
-                                <div class="input-field col s12">
-                                    <select class="browser-default" id="categoria">
-                                        <option value="1">1 -Reunião Inicial(Kickoff)</option>
-                                        <option value="2">2 - Mapeamento do Processo, Identificação e Descrição das Variáveis relacionadas com o Processo</option>
-                                        <option value="3">3 - Definição do Banco de Dados</option>
-                                        <option value="4">4 - Recebimento de Dados e Preparo do Servidor - MS Azure</option>
-                                        <option value="5">5 - Análise Preliminar dos Dados</option>
-                                        <option value="6">6 - Modelagem do Processo</option>
-                                        <option value="7">7 - Validação do Sistema de CEP</option>
-                                        <option value="8">8 - Implantação do Sistema de CEP</option>
-                                        <option value="9">9 - Acompanhamento e Manutenção</option>
-                                        <option value="10">10 - Treinamento Six Sigma</option>
+                                <div class="input-field col s12 m6 l3">
+                                    <div id="getSetInlinePicker"></div>
+                                </div>
+                                <div class="input-field col s12 m6 l7">
+                                    <select class="browser-default" id='atividade'>
+                                        <option value='' disabled selected>Escolha uma atividade</option>
+                                        <optgroup label="1 - Reunião Inicial(Kickoff)">
+                                        </optgroup>
+                                        <optgroup label="2 - Mapeamento do Processo, Identificação e Descrição das Variáveis relacionadas com o Processo">
+                                        </optgroup>
+                                        <optgroup label="3 - Definição do Banco de Dados">
+                                            <option value="3-1">1 - Definição do banco de dados espelho extraído do sistema corporativo</option>
+                                            <option value="3-2">2 - Elaboração do protocolo de base de dados e de confidencialidade</option>
+                                            <option value="3-3">3 - Recebimento dos dados</option>
+                                            <option value="3-4">4 - Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi</option>
+                                            <option value="3-5">5 - Controle no fluxo de entrada e saída de correspondências</option>
+                                            <option value="3-6">6 - Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas</option>
+                                            <option value="3-7">7 - Organização, preparação e arquivamento de documentos conforme procedimentos</option>
+                                            <option value="3-8">8 - Visita na Empresa Arris para definição do processo de trabalho</option>
+                                        </optgroup>
+                                        <optgroup label="4 - Recebimento de Dados e Preparo do Servidor - MS Azure">
+                                        </optgroup>
+                                        <optgroup label="5 - Análise Preliminar dos Dados">
+                                        </optgroup>
+                                        <optgroup label="6 - Modelagem do Processo">
+                                        </optgroup>
+                                        <optgroup label="7 - Validação do Sistema de CEP">
+                                        </optgroup>
+                                        <optgroup label="8 - Implantação do Sistema de CEP">
+                                        </optgroup>
+                                        <optgroup label="9 - Acompanhamento e Manutenção">
+                                        </optgroup>
+                                        <optgroup label="10 - Treinamento Six Sigma">
+                                            <option value="10-1">1 - Acompanhamento/monitoramento do software action no microsoft azure</option>
+                                            <option value="10-2">2 - Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi</option>
+                                            <option value="10-3">3 - Controle no fluxo de entrada e saída de correspondências</option>
+                                            <option value="10-4">4 - Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas</option>
+                                        </optgroup>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 m6 l2">
-                                    <textarea class="materialize-textarea" id="data"></textarea>
-                                    <label for="data">Data:</label>
-                                </div>
-                                <div class="input-field col s12 m6 l2">
-                                    <label for="codigo">Atividade:</label>
-                                    <input type="text" class="form-control" id="codigo">
-                                </div>
-                                <div class="input-field col s12 m8 l6">
-                                    <label for="atividade">Descrição da Atividade:</label>
-                                    <input type="text" class="form-control" id="atividade">
                                 </div>
                                 <div class="input-field col s12 m4 l2">
                                     <label for="ch">Carga Horária:</label>

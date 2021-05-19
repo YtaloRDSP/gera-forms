@@ -1,5 +1,5 @@
 <?php
-    require('check.php');
+    //require('check.php');
 ?>
 <?php
     $nome = '';
@@ -28,7 +28,7 @@
     <body class="teal darken-4">
         <div class="container">
             <div class="card blue-grey darken-1">
-                <form method="post" action="bd_nome.php">
+                <form method="post" action="bd/bd_nome.php">
                     <div class="card-content white-text">
                         <span class="card-title"><h4>Cadastro de Beneficiário</h4></span>
                         <div class="divider"></div>
