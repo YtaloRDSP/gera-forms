@@ -28,10 +28,12 @@
             '3-6' => "Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas",
             '3-7' => "Organização, preparação e arquivamento de documentos conforme procedimentos",
             '3-8' => "Visita na Empresa Arris para definição do processo de trabalho",
+            '3-9' => "Elaboração de atas de Reunião, Ofício, Memorandos, Relatórios e Planilhas conforme Procedimentos da Faepi",
             '10-1' => "Acompanhamento/monitoramento do software action no microsoft azure",
             '10-2' => "Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi",
             '10-3' => "Controle no fluxo de entrada e saída de correspondências",
-            '10-4' => "Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas"
+            '10-4' => "Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas",
+            '10-5' => "Elaboração de atas de Reunião, Ofício, Memorandos, Relatórios e Planilhas conforme Procedimentos da Faepi"
         );
 
         
