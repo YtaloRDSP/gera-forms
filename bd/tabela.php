@@ -59,6 +59,7 @@
                         <th>Descrição da Atividade</th>
                         <th>CH</th>
                         <th> </th>
+                        <th> </th>
                     </tr>
                 </thead>
                 <tbody>";
@@ -115,19 +116,20 @@
                         $totalPorc[$i] += (int)$linha["CH"];
                     }
                     echo "<td>".$totalPorc[$i]."h|".number_format((($totalPorc[$i]/$cargaTotal)*100),2)."%</td>
-                            <td> </td></tr>";         
+                            <td> </td><td> </td></tr>";         
                     foreach($result as $linha){
                         echo "<tr>
                             <td>".str_replace(" ","<br>", $linha["Dias"])."</td>
                             <td>".$i.".".$linha["Codigo"]."</td>
                             <td>".$linha["Atividade"]."</td>
-                            <td>".$linha["CH"]."h|".number_format((((int)$linha["CH"]/$cargaTotal)*100),2)."%</td>
+                            <td><div class='row center-align'><input class='col s3' id='".$linha['id']."' value='".$linha["CH"]."'><div class='col s9'>h|".number_format((((int)$linha["CH"]/$cargaTotal)*100),2)."%</div></div></td>
                             <td><a class='btn-floating waves-effect waves-dark' onclick='excluir(".$linha['id'].")'><i class='material-icons'>remove</i></a></td>
+                            <td><a class='btn-floating waves-effect waves-dark' onclick='alterar(".$linha['id'].")'><i class='material-icons'>add</i></a></td>
                         </tr>";
                     }
                 }
             } 
-            echo "<tr class='blue-grey darken-2'><td></td><td></td><td>TOTAL</td><td>".array_sum($totalPorc)."h|".number_format(((array_sum($totalPorc)/$cargaTotal)*100), 2)."%</td><td></td></tbody></table>";
+            echo "<tr class='blue-grey darken-2'><td></td><td></td><td>TOTAL</td><td>".array_sum($totalPorc)."h|".number_format(((array_sum($totalPorc)/$cargaTotal)*100), 2)."%</td><td></td><td></td></tbody></table>";
         } catch(PDOException $e) {
             echo $stmt . '<br>' . $e->getMessage();
         }
