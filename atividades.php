@@ -63,6 +63,21 @@
                 tabela(0);
             }
         }
+        function alterar(n){
+            var cn = confirm("Tem certeza que deseja alterar este item da tabela?")
+            if(cn){
+                novaCH = document.getElementById(n).value;
+                var alteracao = new XMLHttpRequest();
+                alteracao.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        document.getElementById("exclusao").innerHTML = this.responseText;
+                    }
+                };
+                alteracao.open("GET", "bd/alterar.php?id="+n+"&ch="+novaCH, true);
+                alteracao.send();
+                tabela(0);
+            }
+        }
     </script>
     <head>
         <title>Gerador de Tabela</title>
@@ -75,6 +90,19 @@
         <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.js"></script><style type="text/css"></style>
         <script src="js/jquery.plugin.min.js"></script>
         <script src="js/jquery.datepick.js"></script>
+        <style>  
+            .input-field label:not(.label-icon).active {
+                -webkit-transform-origin: center;
+                transform-origin: center;
+            }
+            .input-field.col label {
+                left: 0;
+            }
+            .input-field label {
+                text-align: center;
+                width: 100%;
+            }
+        </style>
         <script>
             var datas
             $(function() {
