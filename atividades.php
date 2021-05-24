@@ -167,6 +167,7 @@
                                             <option value="3-6">6 - Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas</option>
                                             <option value="3-7">7 - Organização, preparação e arquivamento de documentos conforme procedimentos</option>
                                             <option value="3-8">8 - Visita na Empresa Arris para definição do processo de trabalho</option>
+                                            <option value="3-9">9 - Elaboração de atas de Reunião, Ofício, Memorandos, Relatórios e Planilhas conforme Procedimentos da Faepi</option>
                                         </optgroup>
                                         <optgroup label="4 - Recebimento de Dados e Preparo do Servidor - MS Azure">
                                         </optgroup>
@@ -185,6 +186,7 @@
                                             <option value="10-2">2 - Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi</option>
                                             <option value="10-3">3 - Controle no fluxo de entrada e saída de correspondências</option>
                                             <option value="10-4">4 - Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas</option>
+                                            <option value="10-5">5 - Elaboração de atas de Reunião, Ofício, Memorandos, Relatórios e Planilhas conforme Procedimentos da Faepi</option>
                                         </optgroup>
                                     </select>
                                 </div>
