@@ -1,256 +1,129 @@
-<?php
-    //require('check.php');
-?>
+<!DOCTYPE html>
 <html>
-    <?php
-        session_start();
-        if(isset($_POST['nome']) && isset($_POST['meta']) && isset($_POST['parcela']) && isset($_POST['periodoMensal']) && isset($_POST['cargaMensal'])){
-            $nome = $_POST['nome'];
-            $meta = $_POST['meta'];
-            $parcela = $_POST['parcela'];
-            $periodoMensal = $_POST['periodoMensal'];
-            $cargaMensal = $_POST['cargaMensal'];
-        } else{
-            echo '<script> location = "index.php";</script>';
-        }
-    ?>
-    <script>
-        function enviar(){
-            document.getElementById("form").submit()
-        }
-        function tabela(n){
-            cargaTotal = Number("<?php echo $cargaMensal;?>")
-            data = mostrar()
-            console.log(data)
-            atividade = document.getElementById("atividade").value
-            ch = document.getElementById("ch").value
 
-            if(n==0){data = ''}
+<script>
+    var inicio = "<?=$_POST['inicio']?>"
+    var fim = "<?=$_POST['fim']?>"
+    var atividades = "<?=$_POST['meta']?>"
+    var carga = "<?=$_POST['ch']?>"
 
-            var pretabela = new XMLHttpRequest();
-            pretabela.onreadystatechange = function(){
-                if(this.readyState == 4 && this.status == 200){
-                    document.getElementById("tabela").innerHTML = this.responseText;
-                }
-            };
-            pretabela.open("GET", "bd/tabela.php?data="+data+"&atividade="+atividade+"&ch="+ch+"&ct="+cargaTotal, true);
-            pretabela.send();
-        }
-        function drop(){
-            var cn = confirm("Tem certeza que deseja excluir TODA a tabela?")
-            if(cn){
-                var pretabela = new XMLHttpRequest();
-                pretabela.onreadystatechange = function(){
-                    if(this.readyState == 4 && this.status == 200){
-                        document.getElementById("tabela").innerHTML = this.responseText;
-                    }
-                };
-                pretabela.open("GET", "bd/drop.php", true);
-                pretabela.send();
-            }
-        }
-        function excluir(n){
-            var cn = confirm("Tem certeza que deseja excluir este item da tabela?")
-            if(cn){
-                var exclusao = new XMLHttpRequest();
-                exclusao.onreadystatechange = function(){
-                    if(this.readyState == 4 && this.status == 200){
-                        document.getElementById("exclusao").innerHTML = this.responseText;
-                    }
-                };
-                exclusao.open("GET", "bd/excluir.php?id="+n, true);
-                exclusao.send();
-                tabela(0);
-            }
-        }
-        function alterar(n){
-            var cn = confirm("Tem certeza que deseja alterar este item da tabela?")
-            if(cn){
-                novaCH = document.getElementById(n).value;
-                var alteracao = new XMLHttpRequest();
-                alteracao.onreadystatechange = function(){
-                    if(this.readyState == 4 && this.status == 200){
-                        document.getElementById("exclusao").innerHTML = this.responseText;
-                    }
-                };
-                alteracao.open("GET", "bd/alterar.php?id="+n+"&ch="+novaCH, true);
-                alteracao.send();
-                tabela(0);
-            }
-        }
-    </script>
-    <head>
-        <title>Gerador de Tabela</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="css/jquery.datepick.css" rel="stylesheet">
-        <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.js"></script><style type="text/css"></style>
-        <script src="js/jquery.plugin.min.js"></script>
-        <script src="js/jquery.datepick.js"></script>
-        <style>  
-            .input-field label:not(.label-icon).active {
-                -webkit-transform-origin: center;
-                transform-origin: center;
-            }
-            .input-field.col label {
-                left: 0;
-            }
-            .input-field label {
-                text-align: center;
-                width: 100%;
-            }
-        </style>
-        <script>
-            var datas
-            $(function() {
-                $('#getSetInlinePicker').datepick({
-                    multiSelect: 15,
-                    showTrigger: '#calImg',
-                    onSelect: showDate
-                });
-            });
+    var nome = "<?=$_POST['nome']?>"
+    var parcela = "<?=$_POST['parcela']?>"
 
-            function showDate(date) {
-                datas = JSON.stringify(date)
-                datas = JSON.parse(datas)
-                for (i = 0; i < datas.length; i++) {
-                    datas[i] = String(datas[i]).slice(0, 10)
-                }
-            }
+    console.log(atividades)
+</script>
 
-            function mostrar() {
-                if(!datas) ordenadas = []
-                else ordenadas = datas
-                for (i = 0; i < ordenadas.length; i++) {
-                    ind = i
-                    menor = ordenadas[i]
-                    for (j = i; j < ordenadas.length; j++) {
-                        minMes = Number(menor.slice(5, 7))
-                        minDia = Number(menor.slice(8, 10))
-                        cMes = Number(ordenadas[j].slice(5, 7))
-                        cDia = Number(ordenadas[j].slice(8, 10))
-                        if (cMes < minMes || (cMes == minMes && cDia < minDia)) {
-                            menor = ordenadas[j]
-                            ordenadas[j] = ordenadas[i]
-                            ordenadas[i] = menor
-                        }
-                    }
-                }
-                saida = ''
-                for (i = 0; i < ordenadas.length; i++) {
-                    saida += ordenadas[i].slice(8, 10) + '/'
-                    saida += ordenadas[i].slice(5, 7) + '/'
-                    saida += ordenadas[i].slice(0, 4)
-                    if (i != ordenadas.length - 1) saida += ' '
-                }
-                $('#getSetInlinePicker').datepick("destroy");
-                $('#getSetInlinePicker').datepick({
-                    multiSelect: 10,
-                    showTrigger: '#calImg',
-                    onSelect: showDate
-                });
-                return saida
-            }
-        </script>
-    </head>
+<?php
+    include("assets/bd/credenciais.php");
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT * FROM Beneficiarios WHERE Nome='".$_POST['nome']."'");
+        $stmt->execute();
+        $result = $stmt->fetch();
+        echo "<script>var pack = JSON.parse('".json_encode($result)."')</script>";      
+    } catch(PDOException $e) {
+        echo $stmt . '<br>' . $e->getMessage();
+    }
+    $conn = null;
+?>
 
-    <body onload="tabela(0)" class="teal darken-4">
-        <div class="container">
-            <div class="card blue-grey darken-1">
-                <div class="card-content white-text">
-                    <span class="card-title"><h4>Gerador de Tabelas</h4></span>
-                    <div class="divider"></div>
-                    <div class="row">
-                        <div class='col'><h6><?php echo "Usuário: ".$nome;?></h6>
-                    </div>
-                    <div class="row">
-                        <div id='tabela'></div>
-                        <div id='exclusao'></div>
-                    </div>
-                    <div class="divider"></div>
-                    <h5>Inserir Novo Item</h5>
-                    <div class="row">
-                        <form class="col">
-                            
-                            <div class="row">
-                                <div class="input-field col s12 m6 l3">
-                                    <div id="getSetInlinePicker"></div>
-                                </div>
-                                <div class="input-field col s12 m6 l7">
-                                    <select class="browser-default" id='atividade'>
-                                        <option value='' disabled selected>Escolha uma atividade</option>
-                                        <optgroup label="1 - Reunião Inicial(Kickoff)">
-                                        </optgroup>
-                                        <optgroup label="2 - Mapeamento do Processo, Identificação e Descrição das Variáveis relacionadas com o Processo">
-                                        </optgroup>
-                                        <optgroup label="3 - Definição do Banco de Dados">
-                                            <option value="3-1">1 - Definição do banco de dados espelho extraído do sistema corporativo</option>
-                                            <option value="3-2">2 - Elaboração do protocolo de base de dados e de confidencialidade</option>
-                                            <option value="3-3">3 - Recebimento dos dados</option>
-                                            <option value="3-4">4 - Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi</option>
-                                            <option value="3-5">5 - Controle no fluxo de entrada e saída de correspondências</option>
-                                            <option value="3-6">6 - Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas</option>
-                                            <option value="3-7">7 - Organização, preparação e arquivamento de documentos conforme procedimentos</option>
-                                            <option value="3-8">8 - Visita na Empresa Arris para definição do processo de trabalho</option>
-                                            <option value="3-9">9 - Elaboração de atas de Reunião, Ofício, Memorandos, Relatórios e Planilhas conforme Procedimentos da Faepi</option>
-                                        </optgroup>
-                                        <optgroup label="4 - Recebimento de Dados e Preparo do Servidor - MS Azure">
-                                        </optgroup>
-                                        <optgroup label="5 - Análise Preliminar dos Dados">
-                                        </optgroup>
-                                        <optgroup label="6 - Modelagem do Processo">
-                                        </optgroup>
-                                        <optgroup label="7 - Validação do Sistema de CEP">
-                                        </optgroup>
-                                        <optgroup label="8 - Implantação do Sistema de CEP">
-                                        </optgroup>
-                                        <optgroup label="9 - Acompanhamento e Manutenção">
-                                        </optgroup>
-                                        <optgroup label="10 - Treinamento Six Sigma">
-                                            <option value="10-1">1 - Acompanhamento/monitoramento do software action no microsoft azure</option>
-                                            <option value="10-2">2 - Mapeamento, apreciação e norteamento de aquisição e demandas por dispêndio junto à Faepi</option>
-                                            <option value="10-3">3 - Controle no fluxo de entrada e saída de correspondências</option>
-                                            <option value="10-4">4 - Reunião semanal com a equipe de trabalho IFAM – Apresentar os objetivos, prazos e cronogramas</option>
-                                            <option value="10-5">5 - Elaboração de atas de Reunião, Ofício, Memorandos, Relatórios e Planilhas conforme Procedimentos da Faepi</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                                <div class="input-field col s12 m4 l2">
-                                    <label for="ch">Carga Horária:</label>
-                                    <input type="text" class="form-control" id="ch">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <a class="btn-floating waves-effect waves-dark" onclick="tabela()"><i class="material-icons">add</i></a>
-                            <a class="btn-floating waves-effect waves-dark" onclick="drop()"><i class="material-icons">clear</i></a>
-                            <a class="btn-floating waves-effect waves-dark" onclick="enviar()" id="btn"><i class="material-icons">download</i></a>
-                        </div>
-                    </div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Tabela</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.1/docxtemplater.js"></script>
+    <script src="https://unpkg.com/pizzip@3.0.6/dist/pizzip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+    <script src="https://unpkg.com/pizzip@3.0.6/dist/pizzip-utils.js"></script>
+    
+</head>
+
+<body class="align-content-center" style="background: #162D70;" onload="inicializar()">
+    <div class="container align-content-center">
+        <div class="card" style="background: rgba(255,255,255,0);border-color: rgba(33,37,41,0);">
+            <div class="card-body" style="border-radius: 15px;background: #7997F2;border-color: var(--bs-blue);margin-top: 25px;">
+                <h4 class="card-title" style="font-size: 28px;text-align: left;">Tabela de Atividades</h4>
+                <h4 class="card-title" style="font-size: 16px;text-align: left;color: var(--bs-white);" id="nome"><?= $_POST['nome']?></h4>
+                <div>
+                    <table class="table" id="tabela">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Atividade</th>
+                                <th>Descrição</th>
+                                <th>CH</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #384670;color: var(--bs-white);">
+                                <td></td>
+                                <td>Item</td>
+                                <td>Descrição do Item</td>
+                                <td>X h| X%</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><input type="date"></td>
+                                <td>Subitem</td>
+                                <td><select><optgroup label="This is a group"><option value="12" selected="">This is item 1</option><option value="13">This is item 2</option><option value="14">This is item 3</option></optgroup></select></td>
+                                <td><input type="text" style="width: 40px;">h| X%</td>
+                                <td class="d-flex justify-content-center align-items-center" style="padding: 3px;"><a class="btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center" role="button" data-bs-toggle="tooltip" data-bss-tooltip=""
+                                        style="margin-left: 0px;height: 40px;text-align: left;margin-right: 10px;background: #264BBD;" title="Atualizar item" href="atividades.html"><i class="material-icons" style="font-size: 20px;text-align: center;">refresh</i></a>
+                                    <a
+                                        class="btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center" role="button" data-bs-toggle="tooltip" data-bss-tooltip=""
+                                        style="margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;" title="Excluir item" href="atividades.html"><i class="material-icons" style="font-size: 20px;text-align: center;">delete_forever</i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="date"></td>
+                                <td>Subitem</td>
+                                <td><select><optgroup label="This is a group"><option value="12" selected="">This is item 1</option><option value="13">This is item 2</option><option value="14">This is item 3</option></optgroup></select></td>
+                                <td><input type="text" style="width: 40px;">h| X%</td>
+                                <td class="d-flex justify-content-center align-items-center" style="padding: 3px;"><a class="btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center" role="button" data-bs-toggle="tooltip" data-bss-tooltip=""
+                                        style="margin-left: 0px;height: 40px;text-align: left;margin-right: 10px;background: #264BBD;" title="Atualizar item" href="atividades.html"><i class="material-icons" style="font-size: 20px;text-align: center;">refresh</i></a>
+                                    <a
+                                        class="btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center" role="button" data-bs-toggle="tooltip" data-bss-tooltip=""
+                                        style="margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;" title="Excluir item" href="atividades.html"><i class="material-icons" style="font-size: 20px;text-align: center;">delete_forever</i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="date"></td>
+                                <td>Subitem</td>
+                                <td><select><optgroup label="This is a group"><option value="12" selected="">This is item 1</option><option value="13">This is item 2</option><option value="14">This is item 3</option></optgroup></select></td>
+                                <td><input type="text" style="width: 40px;">h| X%</td>
+                                <td class="d-flex justify-content-center align-items-center" style="padding: 3px;"><a class="btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center" role="button" data-bs-toggle="tooltip" data-bss-tooltip=""
+                                        style="margin-left: 0px;height: 40px;text-align: left;margin-right: 10px;background: #264BBD;" title="Atualizar item" href="atividades.html"><i class="material-icons" style="font-size: 20px;text-align: center;">refresh</i></a>
+                                    <a
+                                        class="btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center" role="button" data-bs-toggle="tooltip" data-bss-tooltip=""
+                                        style="margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;" title="Excluir item" href="atividades.html"><i class="material-icons" style="font-size: 20px;text-align: center;">delete_forever</i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+                <form>
+                    <h4 style="font-size: 20px;text-align: left;color: var(--bs-white);">Inserir Novo Item</h4>
+                    <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;"><span class="input-group-text" style="width: 125px;background: #384669;color: var(--bs-white);">Subatividade</span><select class="form-select" id="nI_ativ"><optgroup label="This is a group"><option value="12" selected="">This is item 1</option><option value="13">This is item 2</option><option value="14">This is item 3</option></optgroup></select></div>
+                    <div
+                        class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;"><span class="input-group-text" style="width: 60px;background: #384669;color: var(--bs-white);">Data</span><input class="form-control" type="date" id="nI_data"><span class="input-group-text" style="width: 125px;background: #384669;color: var(--bs-white);">Carga Horária</span>
+                        <input class="form-control" type="text" id="nI_ch" style="width: 20px;"></div><a class="btn btn-primary text-end d-flex float-end d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center" role="button" onclick="geraDoc()"  data-bs-toggle="tooltip" data-bss-tooltip="" style="margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;"
+                title="Gerar Arquivo .docx"><i class="fas fa-file-download" style="font-size: 30px;"></i></a><a class="btn btn-primary text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center"
+                role="button" data-bs-toggle="tooltip" data-bss-tooltip="" style="margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;" title="Adicionar Atividade na Tabela" onclick="addItem()"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="font-size: 30px;text-align: center;">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4Z" fill="currentColor"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M13 7C13 6.44772 12.5523 6 12 6C11.4477 6 11 6.44772 11 7V11H7C6.44772 11 6 11.4477 6 12C6 12.5523 6.44772 13 7 13H11V17C11 17.5523 11.4477 18 12 18C12.5523 18 13 17.5523 13 17V13H17C17.5523 13 18 12.5523 18 12C18 11.4477 17.5523 11 17 11H13V7Z" fill="currentColor"></path>
+</svg></a></form>
+        
         </div>
-        <form method="post" action="gera.php" id='form'>
-            <div class="form-group">
-                <input type="hidden" class="form-control" value="<?=$nome?>" id="nome" name="nome">
-            </div>
-            <div class="form-group">
-                <input type="hidden" class="form-control" value="<?=$meta?>" id="meta" name="meta">
-            </div>
-            <div class="form-group">
-                <input type="hidden" class="form-control" value="<?=$parcela?>" id="parcela" name="parcela">
-            </div>
-            <div class="form-group">
-                <input type="hidden" class="form-control" value="<?=$periodoMensal?>" id="periodoMensal" name="periodoMensal">
-            </div>
-            <div class="form-group">
-                <input type="hidden" class="form-control" value="<?=$cargaMensal?>" id="cargaMensal" name="cargaMensal">
-            </div>
-        </form>
-    </body>    
+    </div>
+    </div>
+    <script src="assets/js/atividades.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.min.js"></script>
+</body>
+
 </html>
