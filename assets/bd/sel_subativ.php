@@ -1,4 +1,4 @@
-<option selected="" disabled="">Escolha as subatividades realizadas no mês</option>
+
 <optgroup label="1 - Reunião Inicial(Kickoff)">
 </optgroup>
 <optgroup label="2 - Mapeamento do Processo, Identificação e Descrição das Variáveis relacionadas com o Processo">
