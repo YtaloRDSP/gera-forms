@@ -10,13 +10,10 @@ function validar() {
     }
 
     atividades = $('#atividades').val()
-    if (ativ_selecionadas.length != 0) {
+    if (atividades.length != 0) {
         frase = ''
-        for (i = 0; i < ativ_selecionadas.length; i++) {
-            if (ativ_selecionadas[i][2] == 1) {
-                frase += ativ_selecionadas[i][0] + ','
-                console.log(ativ_selecionadas[i][0])
-            }
+        for (i = 0; i < atividades.length; i++) {
+            frase += atividades[i] + ','
         }
         document.getElementById("meta").value = frase.substr(0, frase.length - 1)
     } else {
