@@ -32,7 +32,20 @@
                         <div class="col" style="border-style: none;border-color: rgba(33,37,41,0);"><span class="float-start" style="width: 100px;background: #384670;color: var(--bs-white);padding: 10px;border-radius: 5px;">Atividades</span></div>
                     </div>
                     <table class="table" id="at_selecionadas"></table>
-                    <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;"><select placeholder="Insira as atividades realizadas" name="atividades" id="atividades" multiple="multiple"><?php include("assets/bd/sel_subativ.php"); ?></select></div>
+                    <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
+                        <select placeholder="Insira as atividades realizadas" name="atividades" id="atividades" multiple="multiple">
+                            <option value="1">1 - Reunião Inicial(Kickoff)</option>
+                            <option value="2">2 - Mapeamento do Processo, Identificação e Descrição das Variáveis relacionadas com o Processo</option>
+                            <option value="3">3 - Definição do Banco de Dados</option>
+                            <option value="4">4 - Recebimento de Dados e Preparo do Servidor - MS Azure</option>
+                            <option value="5">5 - Análise Preliminar dos Dados</option>
+                            <option value="6">6 - Modelagem do Processo</option>
+                            <option value="7">7 - Validação do Sistema de CEP</option>
+                            <option value="8">8 - Implantação do Sistema de CEP</option>
+                            <option value="9">9 - Acompanhamento e Manutenção</option>
+                            <option value="10">10 - Treinamento Six Sigma</option>
+                        </select>
+                    </div>
                     <div
                         class="input-group" style="margin-top: 15px;margin-bottom: 15px;"><span class="input-group-text" style="width: 75;background: #384670;color: var(--bs-white);">Parcela</span><input class="form-control" type="text" name="parcela" id="parcela"><span class="input-group-text" style="background: #384670;color: var(--bs-white);">Carga Horária</span>
                         <input
