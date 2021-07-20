@@ -1,24 +1,13 @@
-var l_sub = new Map();
 var l_atv = JSON.parse('[{"Numero":"1","0":"1","Descricao":"Reuni\u00e3o Inicial(Kickoff)","1":"Reuni\u00e3o Inicial(Kickoff)"},{"Numero":"2","0":"2","Descricao":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo","1":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo"},{"Numero":"3","0":"3","Descricao":"Defini\u00e7\u00e3o do Banco de Dados","1":"Defini\u00e7\u00e3o do Banco de Dados"},{"Numero":"4","0":"4","Descricao":"Recebimento de Dados e Preparo do Servidor - MS Azure","1":"Recebimento de Dados e Preparo do Servidor - MS Azure"},{"Numero":"5","0":"5","Descricao":"An\u00e1lise Preliminar dos Dados","1":"An\u00e1lise Preliminar dos Dados"},{"Numero":"6","0":"6","Descricao":"Modelagem do Processo","1":"Modelagem do Processo"},{"Numero":"7","0":"7","Descricao":"Valida\u00e7\u00e3o do Sistema de CEP","1":"Valida\u00e7\u00e3o do Sistema de CEP"},{"Numero":"8","0":"8","Descricao":"Implanta\u00e7\u00e3o do Sistema de CEP","1":"Implanta\u00e7\u00e3o do Sistema de CEP"},{"Numero":"9","0":"9","Descricao":"Acompanhamento e Manuten\u00e7\u00e3o","1":"Acompanhamento e Manuten\u00e7\u00e3o"},{"Numero":"10","0":"10","Descricao":"Treinamento Six Sigma","1":"Treinamento Six Sigma"}]')
-var ltemp_sub = JSON.parse('[{"Numero":"3","0":"3","Descricao":"Defini\u00e7\u00e3o do banco de dados espelho extra\u00eddo do sistema corporativo","1":"Defini\u00e7\u00e3o do banco de dados espelho extra\u00eddo do sistema corporativo","Subitem":"1","2":"1"},{"Numero":"3","0":"3","Descricao":"Elabora\u00e7\u00e3o do protocolo de base de dados e de confidencialidade","1":"Elabora\u00e7\u00e3o do protocolo de base de dados e de confidencialidade","Subitem":"2","2":"2"},{"Numero":"3","0":"3","Descricao":"Recebimento dos dados","1":"Recebimento dos dados","Subitem":"3","2":"3"},{"Numero":"3","0":"3","Descricao":"Mapeamento, aprecia\u00e7\u00e3o e norteamento de aquisi\u00e7\u00e3o e demandas por disp\u00eandio junto \u00e0 Faepi","1":"Mapeamento, aprecia\u00e7\u00e3o e norteamento de aquisi\u00e7\u00e3o e demandas por disp\u00eandio junto \u00e0 Faepi","Subitem":"4","2":"4"},{"Numero":"3","0":"3","Descricao":"Controle no fluxo de entrada e sa\u00edda de correspond\u00eancias","1":"Controle no fluxo de entrada e sa\u00edda de correspond\u00eancias","Subitem":"5","2":"5"},{"Numero":"3","0":"3","Descricao":"Reuni\u00e3o semanal com a equipe de trabalho IFAM \u2013 Apresentar os objetivos, prazos e cronogramas","1":"Reuni\u00e3o semanal com a equipe de trabalho IFAM \u2013 Apresentar os objetivos, prazos e cronogramas","Subitem":"6","2":"6"},{"Numero":"3","0":"3","Descricao":"Organiza\u00e7\u00e3o, prepara\u00e7\u00e3o e arquivamento de documentos conforme procedimentos","1":"Organiza\u00e7\u00e3o, prepara\u00e7\u00e3o e arquivamento de documentos conforme procedimentos","Subitem":"7","2":"7"},{"Numero":"3","0":"3","Descricao":"Visita na Empresa Arris para defini\u00e7\u00e3o do processo de trabalho","1":"Visita na Empresa Arris para defini\u00e7\u00e3o do processo de trabalho","Subitem":"8","2":"8"},{"Numero":"3","0":"3","Descricao":"Elabora\u00e7\u00e3o de atas de Reuni\u00e3o, Of\u00edcio, Memorandos, Relat\u00f3rios e Planilhas conforme Procedimentos da Faepi","1":"Elabora\u00e7\u00e3o de atas de Reuni\u00e3o, Of\u00edcio, Memorandos, Relat\u00f3rios e Planilhas conforme Procedimentos da Faepi","Subitem":"9","2":"9"},{"Numero":"10","0":"10","Descricao":"Acompanhamento\/monitoramento do software action no microsoft azure","1":"Acompanhamento\/monitoramento do software action no microsoft azure","Subitem":"1","2":"1"},{"Numero":"10","0":"10","Descricao":"Mapeamento, aprecia\u00e7\u00e3o e norteamento de aquisi\u00e7\u00e3o e demandas por disp\u00eandio junto \u00e0 Faepi","1":"Mapeamento, aprecia\u00e7\u00e3o e norteamento de aquisi\u00e7\u00e3o e demandas por disp\u00eandio junto \u00e0 Faepi","Subitem":"2","2":"2"},{"Numero":"10","0":"10","Descricao":"Controle no fluxo de entrada e sa\u00edda de correspond\u00eancias","1":"Controle no fluxo de entrada e sa\u00edda de correspond\u00eancias","Subitem":"3","2":"3"},{"Numero":"10","0":"10","Descricao":"Reuni\u00e3o semanal com a equipe de trabalho IFAM \u2013 Apresentar os objetivos, prazos e cronogramas","1":"Reuni\u00e3o semanal com a equipe de trabalho IFAM \u2013 Apresentar os objetivos, prazos e cronogramas","Subitem":"4","2":"4"},{"Numero":"10","0":"10","Descricao":"Elabora\u00e7\u00e3o de atas de Reuni\u00e3o, Of\u00edcio, Memorandos, Relat\u00f3rios e Planilhas conforme Procedimentos da Faepi","1":"Elabora\u00e7\u00e3o de atas de Reuni\u00e3o, Of\u00edcio, Memorandos, Relat\u00f3rios e Planilhas conforme Procedimentos da Faepi","Subitem":"5","2":"5"}]')
 
 var tabela = [];
-var meta = new Set();
-var stmSel = ''
+var meta = [];
 
 var objTabela = []
 var objItens = []
 
 function inicializar() {
     analisar()
-    console.log(pack)
-    console.log(ltemp_sub)
-    console.log(l_atv)
-    for (i = 0; i < ltemp_sub.length; i++) {
-        l_sub.set(ltemp_sub[i].Numero + '-' + ltemp_sub[i].Subitem, ltemp_sub[i].Descricao)
-    }
-    stmSel = geraSelect()
-    document.getElementById("nI_ativ").innerHTML = stmSel
     gera_tabela()
 }
 
@@ -34,51 +23,20 @@ function analisar() {
     while (dIter.getTime() <= d2.getTime()) {
         diaSemana = dIter.getDay();
         if (diaSemana != 0 && diaSemana != 6 && !feriado(dIter.getDate(), dIter.getMonth())) {
-            diasPeriodo.push([dIter.getDate() + '-' + (dIter.getMonth() + 1) + '-' + dIter.getFullYear(), dIter.getDay()]);
+            diasPeriodo.push(dIter.getDate() + '-' + (dIter.getMonth() + 1) + '-' + dIter.getFullYear());
         }
         dIter.setDate(dIter.getDate() + 1)
     }
 
-    var itensAt = atividades.split(',') //itens em forma de array
-    for (i of itensAt) {
-        at = i.split('-')
-        meta.add(Number(at[0]))
-    }
-
-    var atReunioes = ['3-6', '3-9', '10-4', '10-5']
-    var atReunioes_dS = [1, 2, 3, 5]
-    reunioes = []
-    for (i of atReunioes) {
-        if (itensAt.includes(i)) {
-            reunioes.push(i)
-            itensAt.splice(itensAt.indexOf(i), 1);
-        }
-    }
-
-    chA = (carga - (reunioes.length * 4) / itensAt.length)
+    meta = atividades.split(',') //itens em forma de array
     cDiaria = diasPeriodo.length > 20 ? (carga / 20) : (carga / diasPeriodo.length)
 
-    iA = 0
     iD = 0
     cTotal = 0
-
     while (cTotal < carga) {
-        cDia = 0
-        if ((diasPeriodo[iD][1] == 1 || diasPeriodo[iD][1] == 2 || diasPeriodo[iD][1] == 3 || diasPeriodo[iD][1] == 5) && (reunioes.length > 0)) {
-            let itemTemp = atReunioes[atReunioes_dS.indexOf(diasPeriodo[iD][1])]
-            if (reunioes.includes(itemTemp)) {
-                item = [itemTemp, diasPeriodo[iD], 1]
-                tabela.push(item)
-                cDia++
-                cTotal++
-            }
-
-        }
-        item = [itensAt[iA % itensAt.length], diasPeriodo[iD], cDiaria - cDia]
-        tabela.push(item)
-        cTotal += cDiaria - cDia
-        iA++
+        tabela.push(['', '', diasPeriodo[iD], cDiaria])
         iD++
+        cTotal+=cDiaria
     }
 }
 
@@ -106,9 +64,16 @@ function feriado(dia, mes) {
 }
 
 function gera_tabela() {
-    document.getElementById("tabela").innerHTML = "<thead><tr><th class='col-2'>Data</th><th class='col-1'>Atividade</th><th class='col-6'>Descrição</th><th class='col-2'>CH</th><th></th></tr></thead><tbody>"
+    document.getElementById("tabela").innerHTML = `<thead><tr>
+        	                                        <th class='col-2'>Data</th>
+                                                    <th class='col-1'>Atividade</th>
+                                                    <th class='col-6'>Descrição</th>
+                                                    <th class='col-2'>CH</th>
+                                                    <th></th>
+                                                    </tr></thead><tbody>`
     ordenar()
     tema()
+    console.log(tabela)
 }
 
 function ordenar() {
@@ -151,8 +116,8 @@ function ordenar() {
             let c4 = Number(ref[0].split('-')[1])
             let c5 = new Date();
             let c6 = new Date();
-            c5.setFullYear(defData(tabela[j][1][0])[2], defData(tabela[j][1][0])[1], defData(tabela[j][1][0])[0]);
-            c6.setFullYear(defData(ref[1][0])[2], defData(ref[1][0])[1], defData(ref[1][0])[0]);
+            c5.setFullYear(defData(tabela[j][2])[2], defData(tabela[j][2])[1], defData(tabela[j][2])[0]);
+            c6.setFullYear(defData(ref[2])[2], defData(ref[2])[1], defData(ref[2])[0]);
             if (c1 == c2 && c3 == c4 && c5.getTime() < c6.getTime()) {
                 alt = tabela[j]
                 tabela[j] = ref
@@ -161,6 +126,7 @@ function ordenar() {
         }
         tabela[i] = ref
     }
+    console.log("Ordenação Completa")
 }
 
 function tema() {
@@ -169,29 +135,60 @@ function tema() {
         objTabela.pop()
         i++
     }
+
+    let naoIdent = true
+    for (j = 0; j < tabela.length; j++) {
+        if (0 == Number(tabela[j][0])) {
+            if(naoIdent){
+                document.getElementById("tabela").innerHTML += `<tr style='background: #384670;color: var(--bs-white);'>
+                                                            <td class='col-2'></td>
+                                                            <td class='col-1'>0</td>
+                                                            <td class='col-6'>Não identificado</td>
+                                                            <td class='col-2'></td>
+                                                            <td></td>
+                                                        </tr>`
+                naoIdent=false
+            }
+            document.getElementById("tabela").innerHTML += `<tr>
+                                                            <td class='col-2'><input type='date' id='dt${j}' value='${dtFormat(tabela[j][2])}'></td>
+                                                            <td class='col-1'><input type='text' class='col-12' id='et${j}' value='${tabela[j][0]}'>${tabela[j][0].replace('-', '.')}</td>
+                                                            <td class='col-6'><input type='text' class='col-12' id='sel${j}' value='${tabela[j][1]}'></td>
+                                                            <td class='col-2'><input type='text' id='cI${j}' style='width: 40px;' value='${tabela[j][3]}'>h| ${porc(tabela[j][3])}%</td>${geraBotoes(j)}</tr>`
+        }
+    }
+    objTabela = []
     for (i of meta) {
         sI = 0
         for (j = 0; j < tabela.length; j++) {
             if (i == Number(tabela[j][0].split('-')[0])) {
-                sI += tabela[j][2]
+                sI += tabela[j][3]
             }
         }
-        objTabela.push([i, l_atv[i - 1].Descricao, sI])
-        sT += sI
-        document.getElementById("tabela").innerHTML += "<tr style='background: #384670;color: var(--bs-white);'><td class='col-2'></td><td class='col-1'>" + i + "</td><td class='col-6'>" + l_atv[i - 1].Descricao + "</td><td class='col-2'>" + sI + "h|" + porc(sI) + "%</td><td></td></tr>"
-        for (j = 0; j < tabela.length; j++) {
-            if (i == Number(tabela[j][0].split('-')[0])) {
-                document.getElementById("tabela").innerHTML += "<tr><td class='col-2'><input type='date' id='dt" + j + "' value='" + dtFormat(tabela[j][1][0]) + "'></td><td class='col-1'>" + tabela[j][0].replace('-', '.') + "</td><td class='col-6'><select  class='col-12' id='sel" + j + "'>" + stmSel + "</select></td><td class='col-2'><input type='text' id='cI" + j + "' style='width: 40px;' value='" + tabela[j][2] + "'>h|" + porc(tabela[j][2]) + "%</td>" + geraBotoes(j) + " </tr>"
+        if(sI != 0){
+            objTabela.push([i, l_atv[i - 1].Descricao, sI])
+            sT += sI
+            document.getElementById("tabela").innerHTML += `<tr style='background: #384670;color: var(--bs-white);'>
+                                                                <td class='col-2'></td>
+                                                                <td class='col-1'>${i}</td>
+                                                                <td class='col-6'>${l_atv[i - 1].Descricao}</td>
+                                                                <td class='col-2'>${sI}h| ${porc(sI)}%</td>
+                                                                <td></td>
+                                                            </tr>`
+            for (j = 0; j < tabela.length; j++) {
+                if (i == Number(tabela[j][0].split('-')[0])) {
+                    document.getElementById("tabela").innerHTML += `<tr>
+                                                                    <td class='col-2'><input type='date' id='dt${j}' value='${dtFormat(tabela[j][2])}'></td>
+                                                                    <td class='col-1'><input type='text' class='col-12' id='et${j}' value='${tabela[j][0]}'></td>
+                                                                    <td class='col-6'><input type='text' class='col-12' id='sel${j}' value='${tabela[j][1]}'></td>
+                                                                    <td class='col-2'><input type='text' id='cI${j}' style='width: 40px;' value='${tabela[j][3]}'>h| ${porc(tabela[j][3])}%</td>${geraBotoes(j)}</tr>`
+                }
             }
         }
+        
     }
 
     document.getElementById("tabela").innerHTML += "<tr style='background: #384670;color: var(--bs-white);'><td class='col-2'></td><td class='col-1'></td><td class='col-2'>TOTAL</td><td class='col-2'>" + sT + "h|" + porc(sT) + "%</td><td></td></tr>"
     document.getElementById("tabela").innerHTML += "</tbody></table>"
-
-    for (i = 0; i < tabela.length; i++) {
-        document.getElementById("sel" + i).value = tabela[i][0]
-    }
 }
 
 function porc(n) {
@@ -203,18 +200,6 @@ function dtFormat(z) {
     if (Number(n[0]) < 10) n[0] = '0' + n[0]
     if (Number(n[1]) < 10) n[1] = '0' + n[1]
     return n[2] + '-' + n[1] + '-' + n[0]
-}
-
-function geraSelect() {
-    let cdHTML = ''
-    for (t of meta) {
-        cdHTML += "<optgroup label='" + t + "-" + l_atv[t - 1].Descricao + "'>"
-        for (k = 1; l_sub.has(t + '-' + k); k++) {
-            cdHTML += "<option value='" + t + "-" + k + "'>" + t + "." + k + " - " + l_sub.get(t + '-' + k) + "</option>"
-        }
-        cdHTML += "</optgroup>"
-    }
-    return cdHTML;
 }
 
 function geraMeta() {
@@ -244,26 +229,29 @@ function excluir(n) {
 function atualiza(n) {
     var cn = confirm("Tem certeza que deseja alterar este item da tabela?")
     if (cn) {
-        tabela[n][0] = document.getElementById("sel" + n).value //atividade
+        tabela[n][0] = document.getElementById("et" + n).value
+        tabela[n][1] = document.getElementById("sel" + n).value //atividade
+        
 
         let dTemp = (document.getElementById("dt" + n).value).split('-') //data
-        tabela[n][1] = [Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0], 8]
+        tabela[n][2] = Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0]
 
-        tabela[n][2] = Number(document.getElementById("cI" + n).value) //carga horaria
+        tabela[n][3] = Number(document.getElementById("cI" + n).value) //carga horaria
 
         gera_tabela()
     }
 }
 
 function addItem() {
-    let nA = document.getElementById("nI_ativ").value
+    let nD = document.getElementById("nI_desc").value
+    let nA = document.getElementById("nI_num").value
 
     let dTemp = (document.getElementById("nI_data").value).split('-')
-    let nT = [Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0], 8]
+    let nT = Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0]
 
     let nC = Number(document.getElementById("nI_ch").value)
 
-    tabela.push([nA, nT, nC])
+    tabela.push([nA, nD, nT, nC])
 
     gera_tabela()
 }
@@ -279,6 +267,7 @@ function calend(m, n) {
 
 function geraDoc() {
     geraObjeto()
+    console.log(objItens)
     now = new Date
     meses = [
         'Janeiro',
@@ -298,7 +287,7 @@ function geraDoc() {
     function loadFile(url, callback) {
         PizZipUtils.getBinaryContent(url, callback);
     }
-    tamanho = 2
+    tamanho = meta.length
     coor = (nome == "LIZANDRO MANZATO") ? 'Coor' : ''
     arquivo = "assets/word/rel" + coor + tamanho + ".docx"
     now = new Date
@@ -404,33 +393,45 @@ function geraDoc() {
 }
 
 function geraObjeto() {
-    i = 0
-    while (i < objItens.length) {
-        objItens.pop()
-        i++
-    }
-    i = 0
+    objItens = []
     let j = 0
-
-    for (t of meta) {
+    let ar = []
+    var nMeta = new Set()
+    for(i=0; i<objTabela.length; i++){
+        ar.push(objTabela[i][0])
+    }
+    ar.sort(function(a, b) {
+        return a - b;
+      })
+    for(i=0; i<ar.length; i++){
+        nMeta.add(ar[i])
+    }
+    console.log(nMeta)
+    i = 0
+    for (t of nMeta) {
+        if(!(j<tabela.length)) break
         let itemTemp = '{ "at" : ['
+        while(j< tabela.length && tabela[j][0].length == 0){
+            j++
+        }
         let iter = tabela[j][0].split('-')[0]
         while (t == iter && j < tabela.length) {
             let ref = tabela[j][0]
+            let atAtual = tabela[j][1]
             let dt = ''
             let cT = 0
             while (j < tabela.length) {
                 if (ref == tabela[j][0]) {
-                    let dT1 = tabela[j][1][0].split('-')
+                    let dT1 = tabela[j][2].split('-')
                     dT1[0] = (Number(dT1[0]) < 10) ? "0" + dT1[0] : dT1[0]
                     dT1[1] = (Number(dT1[1]) < 10) ? "0" + dT1[1] : dT1[1]
                     dt += dT1[0] + '/' + dT1[1] + '/' + dT1[2]
-                    dt += "(" + tabela[j][2] + "h) "
-                    cT += tabela[j][2]
+                    dt += "(" + tabela[j][3] + "h) "
+                    cT += tabela[j][3]
                     j++
                 } else break
             }
-            itemTemp += '{ "Dias": "' + dt + '", "Codigo": "' + ref.replace('-', '.') + '", "Atividade": "' + l_sub.get(ref) + '", "CH": "' + cT + 'h|' + porc(cT) + '%" },'
+            itemTemp += '{ "Dias": "' + dt + '", "Codigo": "' + ref.replace('-', '.') + '", "Atividade": "' + atAtual + '", "CH": "' + cT + 'h|' + porc(cT) + '%" },'
             iter = j < tabela.length ? tabela[j][0].split('-')[0] : j
         }
         itemTemp = itemTemp.substr(0, itemTemp.length - 1)
