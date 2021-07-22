@@ -265,6 +265,13 @@ function calend(m, n) {
     return retorno
 }
 
+function dtFinal(n) {
+    let retorno = ''
+    n = n.split('-')
+    retorno += n[2] + '/' + n[1] + '/' + n[0]
+    return retorno
+}
+
 function geraDoc() {
     geraObjeto()
     console.log(objItens)
@@ -343,12 +350,12 @@ function geraDoc() {
             modalidade: pack['Modalidade'],
             periodoTotal: pack['PeriodoTotal'],
             cargaTotal: pack['CargaTotal'],
-            mes: "0" + (now.getMonth() + 1),
             mes: (now.getMonth() + 1) < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1),
             parcela: parcela,
             periodoMensal: calend(inicio, fim),
             cargaMensal: carga,
             meta: geraMeta(),
+            final: dtFinal(fim),
 
             ind1: objTabela[0][0],
             ativ1: objTabela[0][1],
