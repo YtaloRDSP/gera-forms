@@ -227,16 +227,20 @@ function excluir(n) {
 }
 
 function atualiza(n) {
-    var cn = confirm("Tem certeza que deseja alterar este item da tabela?")
+    var cn = confirm("Tem certeza que deseja alterar os itens da tabela?")
     if (cn) {
-        tabela[n][0] = document.getElementById("et" + n).value
-        tabela[n][1] = document.getElementById("sel" + n).value //atividade
-        
-
-        let dTemp = (document.getElementById("dt" + n).value).split('-') //data
-        tabela[n][2] = Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0]
-
-        tabela[n][3] = Number(document.getElementById("cI" + n).value) //carga horaria
+        for(i = 0; i<tabela.length; i++){
+            if(document.getElementById("sel" + i).value != ''){
+                tabela[i][0] = document.getElementById("et" + i).value
+                tabela[i][1] = document.getElementById("sel" + i).value //atividade
+                
+    
+                let dTemp = (document.getElementById("dt" + i).value).split('-') //data
+                tabela[i][2] = Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0]
+    
+                tabela[i][3] = Number(document.getElementById("cI" + i).value) //carga horaria
+            }
+        }
 
         gera_tabela()
     }
