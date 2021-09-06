@@ -1,51 +1,149 @@
-var l_atv = JSON.parse('[{"Numero":"1","0":"1","Descricao":"Reuni\u00e3o Inicial(Kickoff)","1":"Reuni\u00e3o Inicial(Kickoff)"},{"Numero":"2","0":"2","Descricao":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo","1":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo"},{"Numero":"3","0":"3","Descricao":"Defini\u00e7\u00e3o do Banco de Dados","1":"Defini\u00e7\u00e3o do Banco de Dados"},{"Numero":"4","0":"4","Descricao":"Recebimento de Dados e Preparo do Servidor - MS Azure","1":"Recebimento de Dados e Preparo do Servidor - MS Azure"},{"Numero":"5","0":"5","Descricao":"An\u00e1lise Preliminar dos Dados","1":"An\u00e1lise Preliminar dos Dados"},{"Numero":"6","0":"6","Descricao":"Modelagem do Processo","1":"Modelagem do Processo"},{"Numero":"7","0":"7","Descricao":"Valida\u00e7\u00e3o do Sistema de CEP","1":"Valida\u00e7\u00e3o do Sistema de CEP"},{"Numero":"8","0":"8","Descricao":"Implanta\u00e7\u00e3o do Sistema de CEP","1":"Implanta\u00e7\u00e3o do Sistema de CEP"},{"Numero":"9","0":"9","Descricao":"Acompanhamento e Manuten\u00e7\u00e3o","1":"Acompanhamento e Manuten\u00e7\u00e3o"},{"Numero":"10","0":"10","Descricao":"Treinamento Six Sigma","1":"Treinamento Six Sigma"}]')
+var l_atv = JSON.parse(`[
+    {
+        "Numero":"1",
+        "Descricao":"Reunião Inicial(Kickoff)"
+    },
+    {
+        "Numero":"2",
+        "Descricao":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo"
+    },
+    {
+        "Numero":"3",
+        "Descricao":"Defini\u00e7\u00e3o do Banco de Dados"
+    },
+    {
+        "Numero":"4",
+        "Descricao":"Recebimento de Dados e Preparo do Servidor - MS Azure"
+    },
+    {
+        "Numero":"5",
+        "Descricao":"An\u00e1lise Preliminar dos Dados"
+    },
+    {
+        "Numero":"6",
+        "Descricao":"Modelagem do Processo"
+    },
+    {
+        "Numero":"7",
+        "Descricao":"Valida\u00e7\u00e3o do Sistema de CEP"
+    },
+    {
+        "Numero":"8",
+        "Descricao":"Implanta\u00e7\u00e3o do Sistema de CEP"
+    },
+    {
+        "Numero":"9",
+        "Descricao":"Acompanhamento e Manuten\u00e7\u00e3o"
+    },
+    {
+        "Numero":"10",
+        "Descricao":"Treinamento Six Sigma"
+    }
+]`)
 
-var tabela = [];
-var meta = [];
+var tabela = [];//variavel com os dados para exibir na tabela
+var meta = [];//array com os numeros das atividades
 
-var objTabela = []
-var objItens = []
+var objTabela = []//variavel com os dados das atividades(Numero, Descricao, CH Total)
+var objItens = []//variavel com os dados das subatividades, no formato JSON
 
+itens = new Map()//variavel para armazenar as descricoes, deixando mais rápido o preenchimento
+
+//funções de formatação
+function defData(d) {//separa a string de data em um formato de vetor(ano, mês, dia)
+    let sep = d.split('-')
+    return [Number(sep[0]), Number(sep[1]) - 1, Number(sep[2])]
+}
+
+function porc(n) {//faz o calculo do percentual da carga horária
+    return ((n * 100) / carga).toFixed(2)
+}
+
+function dtFormat(z) {//troca o / pelo -, formato aceitado para as datas no input(ano, mês, dia)
+    n = z.split('/')
+    return n[0] + '-' + n[1] + '-' + n[2]
+}
+
+function geraMeta() {//gera a string a ser exibida com os nomes das atividades selecionadas
+    let retorno = ''
+    for (i of meta) {
+        retorno += l_atv[i - 1].Descricao + '/'
+    }
+    return retorno.substr(0, retorno.length - 1)
+}
+
+function opcoes(){//cria as opçoes de atividade, baseado na meta
+    let html = '<option></option>'
+    for(i of meta){
+        html += '<option value="'+i+'">'+i+'</option>'
+    }
+    return html
+}
+
+function geraBotoes(n) {//gera os botoes de excluir e alterar
+    let cdHTML = "<td class='d-flex justify-content-center align-items-center col-1' style='padding: 3px;'><a class='btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center' role='button' data-bs-toggle='tooltip' data-bss-tooltip=''"
+    cdHTML += "style='margin-left: 0px;height: 40px;text-align: left;margin-right: 10px;background: #264BBD;' title='Atualizar item' onclick='atualiza(" + n + ")'><i class='material-icons' style='font-size: 20px;text-align: center;'>refresh</i></a>"
+    cdHTML += "<a class='btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center' role='button' data-bs-toggle='tooltip' data-bss-tooltip=''"
+    cdHTML += "style='margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;' title='Excluir item' onclick='excluir(" + n + ")'><i class='material-icons' style='font-size: 20px;text-align: center;'>delete_forever</i></a></td>"
+    return cdHTML
+}
+
+function calend(m, n) {//gera a string a ser exibida no arquivo com o periodo das atividades
+    let retorno = ''
+    m = m.split('-')
+    retorno += m[2] + '/' + m[1] + '/' + m[0] + ' a '
+    n = n.split('-')
+    retorno += n[2] + '/' + n[1] + '/' + n[0]
+    return retorno
+}
+
+function dtFinal(n) {//define a ultima data, e consequentemente, dia da assinatura do arquivo
+    let retorno = ''
+    n = n.split('-')
+    retorno += n[2] + '/' + n[1] + '/' + n[0]
+    return retorno
+}
+
+//função inicial do programa
 function inicializar() {
+    meta = atividades.split(',')
     analisar()
     gera_tabela()
 }
 
-function analisar() {
+function analisar() {//função para armazenar as datas uteis no periodo informado
     var d1 = new Date();
     var d2 = new Date();
-
-    d1.setFullYear(defData(inicio)[0], defData(inicio)[1], defData(inicio)[2]);
-    d2.setFullYear(defData(fim)[0], defData(fim)[1], defData(fim)[2]);
+    
+    d1.setFullYear(defData(inicio)[0],defData(inicio)[1],defData(inicio)[2]);//inicio do periodo(ano, mês, dia)
+    d2.setFullYear(defData(fim)[0],defData(fim)[1],defData(fim)[2]);//fim do periodo
 
     dIter = d1
     diasPeriodo = []
     while (dIter.getTime() <= d2.getTime()) {
         diaSemana = dIter.getDay();
         if (diaSemana != 0 && diaSemana != 6 && !feriado(dIter.getDate(), dIter.getMonth())) {
-            diasPeriodo.push(dIter.getDate() + '-' + (dIter.getMonth() + 1) + '-' + dIter.getFullYear());
+            diasPeriodo.push(`${dIter.getFullYear()}/${dIter.getMonth() + 1 > 9 ? dIter.getMonth() + 1 : '0' + (dIter.getMonth() + 1)}/${dIter.getDate() > 9 ? dIter.getDate() : '0'+dIter.getDate()}`);
         }
         dIter.setDate(dIter.getDate() + 1)
     }
-
-    meta = atividades.split(',') //itens em forma de array
     cDiaria = diasPeriodo.length > 20 ? (carga / 20) : (carga / diasPeriodo.length)
 
     iD = 0
     cTotal = 0
     while (cTotal < carga) {
-        tabela.push(['', '', diasPeriodo[iD], cDiaria])
+        tabela.push({
+            data: diasPeriodo[iD],
+            atividade: "",
+            descricao: "",
+            ch: cDiaria
+        })
         iD++
         cTotal+=cDiaria
     }
 }
 
-function defData(d) {
-    let sep = d.split('-')
-    return [Number(sep[0]), Number(sep[1]) - 1, Number(sep[2])]
-}
-
-function feriado(dia, mes) {
+function feriado(dia, mes) {//verifica se a data é um feriado
     let feriados = [
         [1, 0],
         [21, 3],
@@ -64,161 +162,106 @@ function feriado(dia, mes) {
 }
 
 function gera_tabela() {
-    document.getElementById("tabela").innerHTML = `<thead><tr>
-        	                                        <th class='col-2'>Data</th>
-                                                    <th class='col-1'>Atividade</th>
-                                                    <th class='col-6'>Descrição</th>
-                                                    <th class='col-2'>CH</th>
-                                                    <th></th>
-                                                    </tr></thead><tbody>`
     ordenar()
-    tema()
-    console.log(tabela)
+    let cabecalho = []//saber quando gerar o cabeçalho de cada atividade
+    objTabela = []//limpar para não acumular valores anteriores
+    let html = ''
+    for (j = 0; j < tabela.length; j++){//percorre toda a tabela
+        if(!cabecalho.includes(Number(tabela[j].atividade.split('-')[0]))){//se a atividade não estiver no array, deve gerar o cabeçalho dela
+            if(Number(tabela[j].atividade.split('-')[0]) == 0){//no caso dos itens nulos
+                html += `<tr style='background: #384670;color: var(--bs-white);'>
+                            <td class='col-2'></td>
+                            <td class='col-1'></td>
+                            <td class='col-6'>Não identificado</td>
+                            <td class='col-2'></td>
+                            <td></td>
+                        </tr>`;
+            } else{//no caso dos itens para contabilizar
+                let atividadePrincipal = tabela[j].atividade.split('-')[0];//numero da atividade
+                let descricaoPrincipal = l_atv[Number(tabela[j].atividade.split('-')[0]) - 1].Descricao//descricao da atividade
+                let chPrincipal = tabela.filter(n => n.atividade.split('-')[0] == tabela[j].atividade.split('-')[0]).reduce(function (result, item) {
+                    return result + item.ch;
+                }, 0)//reduce para achar o total de carga horária da atividade
+                objTabela.push({
+                    atividade: atividadePrincipal,
+                    descricao: descricaoPrincipal,
+                    ch: chPrincipal
+                })//passando para a variavel os valores, para usar no arquivo
+                html += `<tr style='background: #384670;color: var(--bs-white);'>
+                            <td class='col-2'></td>
+                            <td class='col-1'>${atividadePrincipal}</td>
+                            <td class='col-6'>${descricaoPrincipal}</td>
+                            <td class='col-2'>${chPrincipal}h| ${porc(chPrincipal)}%</td>
+                            <td></td>
+                        </tr>`
+            }     
+            cabecalho.push(Number(tabela[j].atividade.split('-')[0]))//adiciona atividade ao cabeçalho, indicando que foi apresentada
+        }
+        html += `<tr>
+                    <td class='col-2'><input type='date' id='dt${j}' value='${dtFormat(tabela[j].data)}'></td>
+                    <td class='col-2'>
+                        <select class='col-4' id='at${j}' value='${tabela[j].atividade.split('-')[0]==undefined ? '':tabela[j].atividade.split('-')[0]}'>${opcoes()}</select>
+                        <input type='text' class='col-4' id='subAt${j}' onchange='repete(${j})' value='${tabela[j].atividade.split('-')[1]==undefined ? '':tabela[j].atividade.split('-')[1]}'>
+                    </td>
+                    <td class='col-6'><input type='text' class='col-12' id='sel${j}' onblur='armazena(${j})' value='${tabela[j].descricao}'></td>
+                    <td class='col-2'><input type='text' id='cI${j}' style='width: 40px;' value='${tabela[j].ch}'>h| ${porc(tabela[j].ch)}%</td>
+                    ${geraBotoes(j)}
+                </tr>`;//exibe o item
+    }
+    sT = tabela.filter(n => Number(n.atividade.split('-')[0]) != 0).reduce(function (result, item) {
+        return result + item.ch;
+    }, 0)
+    html += `<tr style='background: #384670;color: var(--bs-white);'>
+                <td class='col-2'></td>
+                <td class='col-1'></td>
+                <td class='col-2'>TOTAL</td>
+                <td class='col-2'>${sT}h| ${porc(sT)}%</td>
+                <td></td>
+            </tr>`
+    
+    document.getElementById("tabela").innerHTML = html
+
+    for (j = 0; j < tabela.length; j++){//força os seletores a exibirem a atividade correta
+        if(Number(tabela[j].atividade.split('-')[0])!=0){
+            $('#at'+j).val(tabela[j].atividade.split('-')[0])
+        }
+    }
 }
 
 function ordenar() {
-    for (i = 0; i < tabela.length; i++) { //ordena pela atividade
-        ref = tabela[i]
-        for (j = i; j < tabela.length; j++) {
-            let c1 = Number(tabela[j][0].split('-')[0])
-            let c2 = Number(ref[0].split('-')[0])
-            if (c1 < c2) {
-                alt = tabela[j]
-                tabela[j] = ref
-                ref = alt
-            }
+    tabela.sort(function(a,b){
+        let idAtiv = a.atividade.split('-')[0] == b.atividade.split('-')[0]//compara se atividades são iguais
+        let idsubAt = a.atividade.split('-')[1] == b.atividade.split('-')[1]
+        if(Number(a.atividade.split('-')[0]) < Number(b.atividade.split('-')[0])){//ordena por atividade
+            return -1
         }
-        tabela[i] = ref
-    }
-
-    for (i = 0; i < tabela.length; i++) { //ordena pela sub-atividade
-        ref = tabela[i]
-        for (j = i; j < tabela.length; j++) {
-            let c1 = Number(tabela[j][0].split('-')[0])
-            let c2 = Number(ref[0].split('-')[0])
-            let c3 = Number(tabela[j][0].split('-')[1])
-            let c4 = Number(ref[0].split('-')[1])
-            if (c1 == c2 && c3 < c4) {
-                alt = tabela[j]
-                tabela[j] = ref
-                ref = alt
-            }
+        else if(Number(a.atividade.split('-')[1]) < Number(b.atividade.split('-')[1]) && idAtiv){//ordena por subatividade
+            return -1       
         }
-        tabela[i] = ref
-    }
-
-    for (i = 0; i < tabela.length; i++) { //ordena pela data
-        ref = tabela[i]
-        for (j = i; j < tabela.length; j++) {
-            let c1 = Number(tabela[j][0].split('-')[0])
-            let c2 = Number(ref[0].split('-')[0])
-            let c3 = Number(tabela[j][0].split('-')[1])
-            let c4 = Number(ref[0].split('-')[1])
-            let c5 = new Date();
-            let c6 = new Date();
-            c5.setFullYear(defData(tabela[j][2])[2], defData(tabela[j][2])[1], defData(tabela[j][2])[0]);
-            c6.setFullYear(defData(ref[2])[2], defData(ref[2])[1], defData(ref[2])[0]);
-            if (c1 == c2 && c3 == c4 && c5.getTime() < c6.getTime()) {
-                alt = tabela[j]
-                tabela[j] = ref
-                ref = alt
-            }
+        else if(a.data < b.data && idAtiv && idsubAt){//ordena por dia
+            return -1       
+        } else{
+            return true
         }
-        tabela[i] = ref
-    }
-    console.log("Ordenação Completa")
+    })
 }
 
-function tema() {
-    sT = 0
-    while (i < objTabela.length) {
-        objTabela.pop()
-        i++
-    }
-
-    let naoIdent = true
-    for (j = 0; j < tabela.length; j++) {
-        if (0 == Number(tabela[j][0])) {
-            if(naoIdent){
-                document.getElementById("tabela").innerHTML += `<tr style='background: #384670;color: var(--bs-white);'>
-                                                            <td class='col-2'></td>
-                                                            <td class='col-1'>0</td>
-                                                            <td class='col-6'>Não identificado</td>
-                                                            <td class='col-2'></td>
-                                                            <td></td>
-                                                        </tr>`
-                naoIdent=false
-            }
-            document.getElementById("tabela").innerHTML += `<tr>
-                                                            <td class='col-2'><input type='date' id='dt${j}' value='${dtFormat(tabela[j][2])}'></td>
-                                                            <td class='col-1'><input type='text' class='col-12' id='et${j}' value='${tabela[j][0]}'>${tabela[j][0].replace('-', '.')}</td>
-                                                            <td class='col-6'><input type='text' class='col-12' id='sel${j}' value='${tabela[j][1]}'></td>
-                                                            <td class='col-2'><input type='text' id='cI${j}' style='width: 40px;' value='${tabela[j][3]}'>h| ${porc(tabela[j][3])}%</td>${geraBotoes(j)}</tr>`
-        }
-    }
-    objTabela = []
-    for (i of meta) {
-        sI = 0
-        for (j = 0; j < tabela.length; j++) {
-            if (i == Number(tabela[j][0].split('-')[0])) {
-                sI += tabela[j][3]
-            }
-        }
-        if(sI != 0){
-            objTabela.push([i, l_atv[i - 1].Descricao, sI])
-            sT += sI
-            document.getElementById("tabela").innerHTML += `<tr style='background: #384670;color: var(--bs-white);'>
-                                                                <td class='col-2'></td>
-                                                                <td class='col-1'>${i}</td>
-                                                                <td class='col-6'>${l_atv[i - 1].Descricao}</td>
-                                                                <td class='col-2'>${sI}h| ${porc(sI)}%</td>
-                                                                <td></td>
-                                                            </tr>`
-            for (j = 0; j < tabela.length; j++) {
-                if (i == Number(tabela[j][0].split('-')[0])) {
-                    document.getElementById("tabela").innerHTML += `<tr>
-                                                                    <td class='col-2'><input type='date' id='dt${j}' value='${dtFormat(tabela[j][2])}'></td>
-                                                                    <td class='col-1'><input type='text' class='col-12' id='et${j}' value='${tabela[j][0]}'></td>
-                                                                    <td class='col-6'><input type='text' class='col-12' id='sel${j}' value='${tabela[j][1]}'></td>
-                                                                    <td class='col-2'><input type='text' id='cI${j}' style='width: 40px;' value='${tabela[j][3]}'>h| ${porc(tabela[j][3])}%</td>${geraBotoes(j)}</tr>`
-                }
-            }
-        }
-        
-    }
-
-    document.getElementById("tabela").innerHTML += "<tr style='background: #384670;color: var(--bs-white);'><td class='col-2'></td><td class='col-1'></td><td class='col-2'>TOTAL</td><td class='col-2'>" + sT + "h|" + porc(sT) + "%</td><td></td></tr>"
-    document.getElementById("tabela").innerHTML += "</tbody></table>"
+function groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+         const key = keyGetter(item);
+         const collection = map.get(key);
+         if (!collection) {
+             map.set(key, [item]);
+         } else {
+             collection.push(item);
+         }
+    });
+    return map;
 }
 
-function porc(n) {
-    return ((n * 100) / carga).toFixed(2)
-}
-
-function dtFormat(z) {
-    n = z.split('-')
-    if (Number(n[0]) < 10) n[0] = '0' + n[0]
-    if (Number(n[1]) < 10) n[1] = '0' + n[1]
-    return n[2] + '-' + n[1] + '-' + n[0]
-}
-
-function geraMeta() {
-    let retorno = ''
-    for (i of meta) {
-        retorno += l_atv[i - 1].Descricao + '/'
-    }
-    return retorno.substr(0, retorno.length - 1)
-}
-
-function geraBotoes(n) {
-    let cdHTML = "<td class='d-flex justify-content-center align-items-center col-1' style='padding: 3px;'><a class='btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center' role='button' data-bs-toggle='tooltip' data-bss-tooltip=''"
-    cdHTML += "style='margin-left: 0px;height: 40px;text-align: left;margin-right: 10px;background: #264BBD;' title='Atualizar item' onclick='atualiza(" + n + ")'><i class='material-icons' style='font-size: 20px;text-align: center;'>refresh</i></a>"
-    cdHTML += "<a class='btn btn-primary btn-sm text-end d-flex float-start d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center' role='button' data-bs-toggle='tooltip' data-bss-tooltip=''"
-    cdHTML += "style='margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;' title='Excluir item' onclick='excluir(" + n + ")'><i class='material-icons' style='font-size: 20px;text-align: center;'>delete_forever</i></a></td>"
-    return cdHTML
-}
-
-function excluir(n) {
+//funcoes auxiliares da tabela
+function excluir(n) {//excluir item da tabela
     var cn = confirm("Tem certeza que deseja excluir este item da tabela?")
     if (cn) {
         tabela.splice(n, 1)
@@ -226,59 +269,81 @@ function excluir(n) {
     }
 }
 
-function atualiza(n) {
+function atualiza(n) {//atualiza todos os itens na tabela
     var cn = confirm("Tem certeza que deseja alterar os itens da tabela?")
     if (cn) {
         for(i = 0; i<tabela.length; i++){
             if(document.getElementById("sel" + i).value != ''){
-                tabela[i][0] = document.getElementById("et" + i).value
-                tabela[i][1] = document.getElementById("sel" + i).value //atividade
-                
-    
+                tabela[i].atividade = document.getElementById("at" + i).value + '-' + document.getElementById("subAt" + i).value//une a atividade e a subatividade
+                tabela[i].descricao = document.getElementById("sel" + i).value //descricao
                 let dTemp = (document.getElementById("dt" + i).value).split('-') //data
-                tabela[i][2] = Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0]
-    
-                tabela[i][3] = Number(document.getElementById("cI" + i).value) //carga horaria
+                tabela[i].data = `${dTemp[0]}/${dTemp[1]}/${dTemp[2]}`
+                tabela[i].ch = Number(document.getElementById("cI" + i).value) //carga horaria
             }
         }
-
         gera_tabela()
     }
 }
 
-function addItem() {
-    let nD = document.getElementById("nI_desc").value
-    let nA = document.getElementById("nI_num").value
 
-    let dTemp = (document.getElementById("nI_data").value).split('-')
-    let nT = Number(dTemp[2]) + '-' + Number(dTemp[1]) + '-' + dTemp[0]
 
-    let nC = Number(document.getElementById("nI_ch").value)
+function armazena(n){//armazena as descrições, usando como chave o valor da subatividade
+    if(!itens.has($('#at'+n).val() +'-'+ $('#subAt'+n).val()) && $('#sel'+n).val() != ''){
+        itens.set($('#at'+n).val() +'-'+ $('#subAt'+n).val(), $('#sel'+n).val())
+    }
+}
 
-    tabela.push([nA, nD, nT, nC])
+function repete(n){//ao detectar a subatividade, automaticamente o sistema preenche a descrição
+    if(itens.has($('#at'+n).val() +'-'+ $('#subAt'+n).val())){
+        $('#sel'+n).val(itens.get($('#at'+n).val() +'-'+ $('#subAt'+n).val()))
+    }
+}
 
+function adiciona() {//adiciona uma nova linha, em branco
+    tabela.push({
+        data: '',
+        atividade: "",
+        descricao: "",
+        ch: 0
+    })
     gera_tabela()
 }
 
-function calend(m, n) {
-    let retorno = ''
-    m = m.split('-')
-    retorno += m[2] + '/' + m[1] + '/' + m[0] + ' a '
-    n = n.split('-')
-    retorno += n[2] + '/' + n[1] + '/' + n[0]
-    return retorno
+//funçoes para auxilio nos dados a serem passados para o documento
+function geraObjeto() {
+    objItens = []//esvazia os objetos, para não ser afetado por itens anteriores
+    for(i = 0; i < objTabela.length; i++){//se baseia em todos os itens presentes na lista das atividades
+        let itemTemp = []//armazenar o formato da data
+        let filtrado = tabela.filter(n => n.atividade.split('-')[0] == objTabela[i].atividade)//filtra apenas os itens daquela atividade no loop
+        let agrupado = groupBy(filtrado, n => n.atividade.split('-')[1])//separa pelas subatividades
+        agrupado.forEach((value, key, map) => {
+            let dts = value.map(item => `${item.data.split('/')[2]}/${item.data.split('/')[1]}/${item.data.split('/')[0]}(${item.ch}h)`)//gera um array com as datas e horários com mesma subatividade
+            dts = dts.join(' ')//une no formato de string
+            let ch = value.reduce(function (result, item) {//faz o calculo do total de carga horária da subatividade
+                return result + item.ch;
+            }, 0)//reduce para achar o total de carga horária da atividade
+            itemTemp.push('{ "Dias": "' + dts + '", "Codigo": "' + value[0].atividade.replace("-", ".") + '", "Atividade": "' + value[0].descricao + '", "CH": "' + ch + 'h|' + porc(ch) + '%"}')//string a ser transformada em JSON
+        });
+        let strItem = '{ "at": ['
+        strItem += itemTemp.join(',')
+        strItem += ']}'
+        objItens.push(strItem)
+    }
+    if (objItens.length != 10) {//preenche até o decimo item com valores, pois o sistema dá falha se houver vazios
+        while (objItens.length < 10) {
+            objItens.push(objItens[0])
+        }
+    }
+    if (objTabela.length != 10) {
+        while (objTabela.length < 10) {
+            objTabela.push(objTabela[0])
+        }
+    }
 }
 
-function dtFinal(n) {
-    let retorno = ''
-    n = n.split('-')
-    retorno += n[2] + '/' + n[1] + '/' + n[0]
-    return retorno
-}
-
+//função para gerar documento
 function geraDoc() {
     geraObjeto()
-    console.log(objItens)
     now = new Date
     meses = [
         'Janeiro',
@@ -361,30 +426,35 @@ function geraDoc() {
             meta: geraMeta(),
             final: dtFinal(fim),
 
-            ind1: objTabela[0][0],
-            ativ1: objTabela[0][1],
-            totalCH1: objTabela[0][2] + 'h|' + porc(objTabela[0][2]) + '%',
+            ind1: objTabela[0].atividade,
+            ativ1: objTabela[0].descricao,
+            totalCH1: objTabela[0].ch + 'h|' + porc(objTabela[0].ch) + '%',
             at1: JSON.parse(objItens[0]).at,
 
-            ind2: objTabela[1][0],
-            ativ2: objTabela[1][1],
-            totalCH2: objTabela[1][2] + 'h|' + porc(objTabela[1][2]) + '%',
+            ind2: objTabela[1].atividade,
+            ativ2: objTabela[1].descricao,
+            totalCH2: objTabela[1].ch + 'h|' + porc(objTabela[0].ch) + '%',
             at2: JSON.parse(objItens[1]).at,
 
-            ind3: objTabela[2][0],
-            ativ3: objTabela[2][1],
-            totalCH3: objTabela[2][2] + 'h|' + porc(objTabela[2][2]) + '%',
+            ind3: objTabela[2].atividade,
+            ativ3: objTabela[2].descricao,
+            totalCH3: objTabela[2].ch + 'h|' + porc(objTabela[2].ch) + '%',
             at3: JSON.parse(objItens[2]).at,
 
-            ind4: objTabela[3][0],
-            ativ4: objTabela[3][1],
-            totalCH4: objTabela[3][2] + 'h|' + porc(objTabela[3][2]) + '%',
+            ind4: objTabela[3].atividade,
+            ativ4: objTabela[3].descricao,
+            totalCH4: objTabela[3].ch + 'h|' + porc(objTabela[3].ch) + '%',
             at4: JSON.parse(objItens[3]).at,
 
-            ind5: objTabela[4][0],
-            ativ5: objTabela[4][1],
-            totalCH5: objTabela[4][2] + 'h|' + porc(objTabela[4][2]) + '%',
-            at5: JSON.parse(objItens[4]).at
+            ind5: objTabela[4].atividade,
+            ativ5: objTabela[4].descricao,
+            totalCH5: objTabela[4].ch + 'h|' + porc(objTabela[4].ch) + '%',
+            at5: JSON.parse(objItens[4]).at,
+
+            ind6: objTabela[5].atividade,
+            ativ6: objTabela[5].descricao,
+            totalCH6: objTabela[5].ch + 'h|' + porc(objTabela[5].ch) + '%',
+            at6: JSON.parse(objItens[5]).at,
         });
         try {
             // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
@@ -401,62 +471,4 @@ function geraDoc() {
             }) //Output the document using Data-URI
         saveAs(out, arqNome + ".docx")
     })
-}
-
-function geraObjeto() {
-    objItens = []
-    let j = 0
-    let ar = []
-    var nMeta = new Set()
-    for(i=0; i<objTabela.length; i++){
-        ar.push(objTabela[i][0])
-    }
-    ar.sort(function(a, b) {
-        return a - b;
-      })
-    for(i=0; i<ar.length; i++){
-        nMeta.add(ar[i])
-    }
-    console.log(nMeta)
-    i = 0
-    for (t of nMeta) {
-        if(!(j<tabela.length)) break
-        let itemTemp = '{ "at" : ['
-        while(j< tabela.length && tabela[j][0].length == 0){
-            j++
-        }
-        let iter = tabela[j][0].split('-')[0]
-        while (t == iter && j < tabela.length) {
-            let ref = tabela[j][0]
-            let atAtual = tabela[j][1]
-            let dt = ''
-            let cT = 0
-            while (j < tabela.length) {
-                if (ref == tabela[j][0]) {
-                    let dT1 = tabela[j][2].split('-')
-                    dT1[0] = (Number(dT1[0]) < 10) ? "0" + dT1[0] : dT1[0]
-                    dT1[1] = (Number(dT1[1]) < 10) ? "0" + dT1[1] : dT1[1]
-                    dt += dT1[0] + '/' + dT1[1] + '/' + dT1[2]
-                    dt += "(" + tabela[j][3] + "h) "
-                    cT += tabela[j][3]
-                    j++
-                } else break
-            }
-            itemTemp += '{ "Dias": "' + dt + '", "Codigo": "' + ref.replace('-', '.') + '", "Atividade": "' + atAtual + '", "CH": "' + cT + 'h|' + porc(cT) + '%" },'
-            iter = j < tabela.length ? tabela[j][0].split('-')[0] : j
-        }
-        itemTemp = itemTemp.substr(0, itemTemp.length - 1)
-        itemTemp += ']}'
-        objItens.push(itemTemp)
-    }
-    if (objItens.length != 10) {
-        while (objItens.length < 10) {
-            objItens.push(objItens[0])
-        }
-    }
-    if (objTabela.length != 10) {
-        while (objTabela.length < 10) {
-            objTabela.push(objTabela[0])
-        }
-    }
 }

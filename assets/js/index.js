@@ -1,4 +1,16 @@
-var l_atv = JSON.parse('[{"Numero":"1","0":"1","Descricao":"Reuni\u00e3o Inicial(Kickoff)","1":"Reuni\u00e3o Inicial(Kickoff)"},{"Numero":"2","0":"2","Descricao":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo","1":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo"},{"Numero":"3","0":"3","Descricao":"Defini\u00e7\u00e3o do Banco de Dados","1":"Defini\u00e7\u00e3o do Banco de Dados"},{"Numero":"4","0":"4","Descricao":"Recebimento de Dados e Preparo do Servidor - MS Azure","1":"Recebimento de Dados e Preparo do Servidor - MS Azure"},{"Numero":"5","0":"5","Descricao":"An\u00e1lise Preliminar dos Dados","1":"An\u00e1lise Preliminar dos Dados"},{"Numero":"6","0":"6","Descricao":"Modelagem do Processo","1":"Modelagem do Processo"},{"Numero":"7","0":"7","Descricao":"Valida\u00e7\u00e3o do Sistema de CEP","1":"Valida\u00e7\u00e3o do Sistema de CEP"},{"Numero":"8","0":"8","Descricao":"Implanta\u00e7\u00e3o do Sistema de CEP","1":"Implanta\u00e7\u00e3o do Sistema de CEP"},{"Numero":"9","0":"9","Descricao":"Acompanhamento e Manuten\u00e7\u00e3o","1":"Acompanhamento e Manuten\u00e7\u00e3o"},{"Numero":"10","0":"10","Descricao":"Treinamento Six Sigma","1":"Treinamento Six Sigma"}]')
+var l_atv = JSON.parse(`[
+                {"Numero":"1","Descricao":"Reuni\u00e3o Inicial(Kickoff)"},
+                {"Numero":"2","Descricao":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo"},
+                {"Numero":"3","Descricao":"Defini\u00e7\u00e3o do Banco de Dados"},
+                {"Numero":"4","Descricao":"Recebimento de Dados e Preparo do Servidor - MS Azure"},
+                {"Numero":"5","Descricao":"An\u00e1lise Preliminar dos Dados"},
+                {"Numero":"6","Descricao":"Modelagem do Processo"},
+                {"Numero":"7","Descricao":"Valida\u00e7\u00e3o do Sistema de CEP"},
+                {"Numero":"8","Descricao":"Implanta\u00e7\u00e3o do Sistema de CEP"},
+                {"Numero":"9","Descricao":"Acompanhamento e Manuten\u00e7\u00e3o"},
+                {"Numero":"10","Descricao":"Treinamento Six Sigma"}
+            ]`)
+
 var ativ_selecionadas = []
 
 function validar() {

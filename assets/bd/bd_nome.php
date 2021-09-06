@@ -1,5 +1,4 @@
 <?php
-
     include("credenciais.php");
     session_start();
 
