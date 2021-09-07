@@ -24,7 +24,7 @@
           </div>
           <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
             <span class="input-group-text" style="background: #384670;color: var(--bs-white);width: 5rem;">Senha</span>
-            <input class="form-control" type="text" id="senha" name="senha">
+            <input class="form-control" type="password" id="senha" name="senha">
           </div>
           <button class="btn btn-primary text-end d-flex float-end d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center"
             type="button" style="margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;"

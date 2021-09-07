@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+    require('assets/autentic/verifica.php');
+?>
 <html>
     <script>
         var inicio = "<?=$_POST['inicio']?>"

@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+    require('assets/autentic/verifica.php');
+?>
 <html lang="en">
     <head>
         <meta charset="utf-8">
