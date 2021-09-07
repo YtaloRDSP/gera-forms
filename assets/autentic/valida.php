@@ -1,7 +1,7 @@
 <?php
     session_start();
     $usuario_Post = $_POST['user'];
-    $senha_Post = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+    $senha_Post = $_POST['senha'];//password_hash(, PASSWORD_DEFAULT);
 
     $usuario = getenv("Usuario");
     $senha = getenv("Senha");
