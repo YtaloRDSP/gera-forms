@@ -6,7 +6,13 @@
     $usuario = getenv("Usuario");
     $senha = getenv("Senha");
     echo $usuario;
+    echo '<br>';
     echo $senha;
+    echo '<br>';
+    echo $usuario_Post;
+    echo '<br>';
+    echo $senha_Post;
+    echo '<br>';
 
     if($usuario_Post==$usuario && password_verify($senha_Post, $senha)){
         $_SESSION['Usuario'] = $usuario;
