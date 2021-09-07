@@ -56,7 +56,4 @@
         echo '<script> alert("Preencha todos os campos.")</script>';
         echo '<script> location = "cadastro.php";</script>';
     }
-    
-
-	
 ?>

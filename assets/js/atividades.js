@@ -5,11 +5,11 @@ var l_atv = JSON.parse(`[
     },
     {
         "Numero":"2",
-        "Descricao":"Mapeamento do Processo, Identifica\u00e7\u00e3o e Descri\u00e7\u00e3o das Vari\u00e1veis relacionadas com o Processo"
+        "Descricao":"Mapeamento do Processo, Identificação e Descrição das Variáveis relacionadas com o Processo"
     },
     {
         "Numero":"3",
-        "Descricao":"Defini\u00e7\u00e3o do Banco de Dados"
+        "Descricao":"Definição do Banco de Dados"
     },
     {
         "Numero":"4",
@@ -17,7 +17,7 @@ var l_atv = JSON.parse(`[
     },
     {
         "Numero":"5",
-        "Descricao":"An\u00e1lise Preliminar dos Dados"
+        "Descricao":"Análise Preliminar dos Dados"
     },
     {
         "Numero":"6",
@@ -25,15 +25,15 @@ var l_atv = JSON.parse(`[
     },
     {
         "Numero":"7",
-        "Descricao":"Valida\u00e7\u00e3o do Sistema de CEP"
+        "Descricao":"Validação do Sistema de CEP"
     },
     {
         "Numero":"8",
-        "Descricao":"Implanta\u00e7\u00e3o do Sistema de CEP"
+        "Descricao":"Implantação do Sistema de CEP"
     },
     {
         "Numero":"9",
-        "Descricao":"Acompanhamento e Manuten\u00e7\u00e3o"
+        "Descricao":"Acompanhamento e Manutenção"
     },
     {
         "Numero":"10",
@@ -201,10 +201,10 @@ function gera_tabela() {
                     <td class='col-2'><input type='date' id='dt${j}' value='${dtFormat(tabela[j].data)}'></td>
                     <td class='col-2'>
                         <select class='col-4' id='at${j}' value='${tabela[j].atividade.split('-')[0]==undefined ? '':tabela[j].atividade.split('-')[0]}'>${opcoes()}</select>
-                        <input type='text' class='col-4' id='subAt${j}' onchange='repete(${j})' value='${tabela[j].atividade.split('-')[1]==undefined ? '':tabela[j].atividade.split('-')[1]}'>
+                        <input type='text' class='col-4 num' id='subAt${j}' onchange='repete(${j})' value='${tabela[j].atividade.split('-')[1]==undefined ? '':tabela[j].atividade.split('-')[1]}'>
                     </td>
                     <td class='col-6'><input type='text' class='col-12' id='sel${j}' onblur='armazena(${j})' value='${tabela[j].descricao}'></td>
-                    <td class='col-2'><input type='text' id='cI${j}' style='width: 40px;' value='${tabela[j].ch}'>h| ${porc(tabela[j].ch)}%</td>
+                    <td class='col-2'><input type='text' id='cI${j}' class='num' style='width: 40px;' value='${tabela[j].ch}'>h| ${porc(tabela[j].ch)}%</td>
                     ${geraBotoes(j)}
                 </tr>`;//exibe o item
     }
@@ -220,7 +220,7 @@ function gera_tabela() {
             </tr>`
     
     document.getElementById("tabela").innerHTML = html
-
+    $('.num').mask('00')
     for (j = 0; j < tabela.length; j++){//força os seletores a exibirem a atividade correta
         if(Number(tabela[j].atividade.split('-')[0])!=0){
             $('#at'+j).val(tabela[j].atividade.split('-')[0])
@@ -288,15 +288,16 @@ function atualiza(n) {//atualiza todos os itens na tabela
 
 
 function armazena(n){//armazena as descrições, usando como chave o valor da subatividade
+    if($('#at'+n).val() == '' || $('#subAt'+n).val() == '') return
     if(!itens.has($('#at'+n).val() +'-'+ $('#subAt'+n).val()) && $('#sel'+n).val() != ''){
         itens.set($('#at'+n).val() +'-'+ $('#subAt'+n).val(), $('#sel'+n).val())
     }
 }
 
 function repete(n){//ao detectar a subatividade, automaticamente o sistema preenche a descrição
-    if(itens.has($('#at'+n).val() +'-'+ $('#subAt'+n).val())){
+    if(itens.has($('#at'+n).val() +'-'+ $('#subAt'+n).val()) && $('#sel'+n).val() == ''){
         $('#sel'+n).val(itens.get($('#at'+n).val() +'-'+ $('#subAt'+n).val()))
-    }
+    } else armazena(n)
 }
 
 function adiciona() {//adiciona uma nova linha, em branco

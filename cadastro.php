@@ -1,99 +1,89 @@
-<?php
-    //require('check.php');
-?>
-<?php
-    $nome = '';
-    $cpf = '';
-    $rg = '';
-    $uf = '';
-    $email = '';
-    $fone = '';
-    $funcao = '';
-    $contrato = '';
-    $proc = '';
-    $modalidade = '';
-    $periodoTotal = '';
-    $cargaTotal = '';
-?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>Cadastrar</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Cadastrar</title>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+        <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
     </head>
-    <body class="teal darken-4">
-        <div class="container">
-            <div class="card blue-grey darken-1">
-                <form method="post" action="assets/bd/bd_nome.php">
-                    <div class="card-content white-text">
-                        <span class="card-title"><h4>Cadastro de Beneficiário</h4></span>
-                        <div class="divider"></div>
-                        <div class="row">
-                            <div class="input-field col s12 m6">
-                                <label for="nome">Nome Completo:</label>
-                                <input type="text" class="form-control" value="<?=$nome?>"id="nome" name="nome">
-                            </div>
-                            <div class="input-field col s6 m4">
-                                <label for="cpf">CPF:</label>
-                                <input type="text" class="form-control" value="<?=$cpf?>" placeholder="XXXXXXXXX-XX" id="cpf" name="cpf">
-                            </div>
-                            <div class="input-field col s6 m2">
-                                <label for="rg">RG:</label>
-                                <input type="text" class="form-control" value="<?=$rg?>" id="rg" name="rg">
-                            </div>
+
+    <body class="align-content-center" style="background: #162D70;">
+        <div class="container align-content-center" style="max-width: 500px;">
+            <div class="card" style="max-width: 500px;background: rgba(255,255,255,0);border-color: rgba(33,37,41,0);">
+                <div class="card-body"
+                    style="border-radius: 15px;background: #7997F2;border-color: var(--bs-blue);margin-top: 25px;">
+                    <h4 class="card-title" style="font-size: 28px;text-align: left;">Cadastro de Beneficiário</h4>
+                    <form action="assets/bd/bd_nome.php" method="post" id="dados">
+                        <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">Nome Completo</span>
+                            <input class="form-control" type="text" id="nome" name="nome">
                         </div>
-                        <div class="row">
-                            <div class="input-field col s12 m2">
-                                <label for="uf">UF:</label>
-                                <input type="text" class="form-control" value="<?=$uf?>"id="uf" name="uf">
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <label for="email">Email:</label>
-                                <input type="text" class="form-control" value="<?=$email?>" id="email" name="email">
-                            </div>
-                            <div class="input-field col s4 m4">
-                                <label for="fone">Telefone:</label>
-                                <input type="text" class="form-control" value="<?=$fone?>" placeholder="(XX) XXXXX-XXXX" id="fone" name="fone">
-                            </div>
+                        <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">CPF</span>
+                            <input class="form-control" type="text" id="cpf" name="cpf">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">RG</span>
+                            <input class="form-control" type="text" id="rg" name="rg">
                         </div>
-                        <div class="row">
-                            <div class="input-field col s12 m6">
-                                <label for="funcao">Função:</label>
-                                <input type="text" class="form-control" value="<?=$funcao?>" id="funcao" name="funcao">
-                            </div>
-                            <div class="input-field col s12 m3">
-                                <label for="contrato">Número do Contrato:</label>
-                                <input type="text" class="form-control" value="<?=$contrato?>" id="contrato" name="contrato">
-                            </div>
-                            <div class="input-field col s12 m3">
-                                <label for="proc">Número do Proc:</label>
-                                <input type="text" class="form-control" value="<?=$proc?>" id="proc" name="proc">
-                            </div>
+                        <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">Email</span>
+                            <input class="form-control" type="text" id="email" name="email">
                         </div>
-                        <div class="row">
-                            <div class="input-field col s12 m4">
-                                <label for="modalidade">Modalidade:</label>
-                                <input type="text" class="form-control" value="<?=$modalidade?>" id="modalidade" name="modalidade">
-                            </div>
-                            <div class="input-field col s12 m4">
-                                <label for="periodoTotal">Periodo Total de Atividade:</label>
-                                <input type="text" class="form-control" value="<?=$periodoTotal?>" placeholder="XX/XX/XXXX a XX/XX/XXXX" id="periodoTotal" name="periodoTotal">
-                            </div>
-                            <div class="input-field col s12 m4">
-                                <label for="cargaTotal">Carga Horária Total:</label>
-                                <input type="text" class="form-control" value="<?=$cargaTotal?>" id="cargaTotal" name="cargaTotal">
-                            </div>
+                        <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">UF</span>
+                            <input class="form-control" type="text" id="uf" name="uf">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">Telefone</span>
+                            <input class="form-control" type="text" id="fone" name="fone">
                         </div>
-                    </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn" id="btn">Cadastrar</button>
-                    </div>
-                </form> 
+                        <div class="input-group" style="margin-top: 15px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="width: 75;background: #384670;color: var(--bs-white);">Função</span>
+                            <input class="form-control" type="text" id="funcao" name="funcao">
+                        </div>
+                        <div class="input-group" style="margin-top: 15px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="width: 75;background: #384670;color: var(--bs-white);">Modalidade</span>
+                            <input class="form-control" type="text" id="modalidade" name="modalidade">
+                        </div>
+                        <div class="input-group" style="margin-top: 15px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="width: 75;background: #384670;color: var(--bs-white);">Contrato</span>
+                            <input class="form-control" type="text" id="contrato" name="contrato">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">Proc</span>
+                            <input class="form-control" type="text" id="proc" name="proc">
+                            <span class="input-group-text" style="background: #384670;color: var(--bs-white);">CH</span>
+                            <input class="form-control" type="text" id="cargaTotal" name="cargaTotal">
+                        </div>
+                        <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="width: 146px;background: #384670;color: var(--bs-white);">Inicio do Periodo</span>
+                            <input class="form-control" type="date" name="inicio" id="inicio">
+                        </div>
+                        <div class="input-group" style="margin-top: 15px;margin-right: 0px;margin-bottom: 15px;">
+                            <span class="input-group-text" style="width: 146px;background: #384670;color: var(--bs-white);">Fim do Periodo</span>
+                            <input class="form-control" type="date" name="fim" id="fim">
+                        </div>
+                        <div class="input-group sr-only">
+                            <input class="form-control" type="text" name="periodoTotal" id="periodoTotal">
+                        </div>
+                        <button class="btn btn-primary text-end d-flex float-end d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-center"
+                            type="button" style="margin-left: 0px;height: 40px;text-align: left;margin-right: 0px;background: #264BBD;"
+                            onclick="show()"><i class="material-icons" style="background: #264BBD;">navigate_next</i></button>
+                    </form>
+                </div>
             </div>
         </div>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/script.min.js"></script>
+        <script>
+            function show(){
+                dtIn = document.getElementById('inicio').value
+                dtIn = dtIn.split('-')[2] + '/' + dtIn.split('-')[1] + '/' + dtIn.split('-')[0]
+                dtFim = document.getElementById('fim').value
+                dtFim = dtFim.split('-')[2] + '/' + dtFim.split('-')[1] + '/' + dtFim.split('-')[0]
+
+                document.getElementById('periodoTotal').value = dtIn + ' a ' + dtFim
+                console.log(document.getElementById('periodoTotal').value)
+                document.getElementById('dados').submit()
+            }
+        </script>
     </body>
+
 </html>
