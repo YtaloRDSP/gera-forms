@@ -1,7 +1,8 @@
 <?php
-    echo $_COOKIE['CookieUser'];
-    if(!isset($_COOKIE['CookieUser']) || $_COOKIE['CookieUser'] == ''){
+    session_start();
+    if(isset($_SESSION['Usuario']) && $_SESSION['Usuario'] != ''){
+    } else{
         echo '<script> alert("Necessário autenticação!")</script>';
-        //echo '<script> location = "login.php";</script>';
+        echo '<script> location = "login.php";</script>';
     }
 ?>
